@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/login_page.dart';
+// import 'package:keralatour/pages/login_page.dart';
 
 void main() async {
   runApp(
@@ -29,6 +30,7 @@ class _AppState extends State<App> {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tourism Guide',
+      //home: HomePage(),
       home: LoginPage(),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:keralatour/pages/home.dart';
+import 'package:keralatour/pages/status.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/button_widget.dart';
 
@@ -63,7 +65,7 @@ class _PopupContentState extends State<PopupContent> {
         child: Container(
           width: screenSize.width * 0.9, // Set 80% of the screen width
           height: screenSize.height * 0.7,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -75,9 +77,9 @@ class _PopupContentState extends State<PopupContent> {
               Row(
                 children: [
                   const Text(
-                    " Current Location         : ",
+                    " Current Location : ",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -95,7 +97,7 @@ class _PopupContentState extends State<PopupContent> {
                           child: Text(
                             value,
                             style: const TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Pallete.green),
                           ),
@@ -108,9 +110,9 @@ class _PopupContentState extends State<PopupContent> {
               Row(
                 children: [
                   const Text(
-                    " No. of Days                  : ",
+                    " No. of Days          : ",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -141,9 +143,9 @@ class _PopupContentState extends State<PopupContent> {
               const Row(
                 children: [
                   Text(
-                    " Choose Your Interest  :",
+                    " Your  Interest      :",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -192,6 +194,11 @@ class _PopupContentState extends State<PopupContent> {
                   ],
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ));
                   },
                 ),
               ),

@@ -15,7 +15,7 @@ class _LocationPageState extends State<LocationPage> {
   String? _currentAddress;
   Position? _currentPosition;
   Timer? _locationTimer;
-  String? user = "user2";
+  String? user = "user1";
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;

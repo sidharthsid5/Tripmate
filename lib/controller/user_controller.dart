@@ -92,4 +92,41 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  bool isUserInterest = false;
+  Future<void> userInterest({
+    required String location,
+    required String days,
+    required List<String> interests,
+  }) async {
+    try {
+      isUserInterest = true;
+      notifyListeners();
+
+      final response = await http.post(
+        Uri.parse(baseUrl + "interest"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'location': location,
+          'days': days,
+          'interests': interests,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Data sent successfully
+        print('Data sent successfully');
+      } else {
+        // Error in sending data
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      isUserInterest = false;
+      notifyListeners();
+    }
+  }
 }

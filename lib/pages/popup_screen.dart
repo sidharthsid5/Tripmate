@@ -1,9 +1,9 @@
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:keralatour/pages/home.dart';
-import 'package:keralatour/pages/status.dart';
+import 'package:keralatour/controller/user_controller.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/button_widget.dart';
+import 'package:provider/provider.dart';
 
 class PopupContent extends StatefulWidget {
   const PopupContent({super.key});
@@ -193,12 +193,14 @@ class _PopupContentState extends State<PopupContent> {
                     Colors.white,
                   ],
                   onPressed: () {
+                    Provider.of<UserProvider>(context, listen: false)
+                        .userInterest(
+                      location: selectedLocation!,
+                      days: selectedDays!,
+                      interests: tags,
+                    );
+
                     Navigator.of(context).pop();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ));
                   },
                 ),
               ),

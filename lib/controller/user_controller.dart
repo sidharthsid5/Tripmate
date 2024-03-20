@@ -6,7 +6,6 @@ import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 
 class UserProvider extends ChangeNotifier {
-  //String baseUrl = "http://10.11.2.184:3000/"; //14.139.185.82
   String baseUrl = "http://10.11.2.236:4000/";
   bool isUserRegistering = false;
   Future<void> userRegistration(

@@ -103,7 +103,7 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
 
       final response = await http.post(
-        Uri.parse(baseUrl + "fetch_districts"),
+        Uri.parse(baseUrl + "place"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

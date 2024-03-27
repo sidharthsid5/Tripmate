@@ -1,6 +1,7 @@
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
+import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
@@ -201,6 +202,13 @@ class _PopupContentState extends State<PopupContent> {
                     );
 
                     Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SortedPlacesPage(
+                            currentLocation: selectedLocation!, days: 1),
+                      ),
+                    );
                   },
                 ),
               ),

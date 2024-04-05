@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/pages/home.dart';
 import 'package:keralatour/pages/login_page.dart';
+import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -126,6 +127,20 @@ class UserProvider extends ChangeNotifier {
     } finally {
       isUserInterest = false;
       notifyListeners();
+    }
+  }
+
+  bool isUserSchedule = false;
+  Future<List<TourSchedule>> getTourSchedules() async {
+    isUserSchedule = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "tourSchedules"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TourSchedule.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
     }
   }
 }

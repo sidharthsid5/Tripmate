@@ -20,10 +20,10 @@ class _PopupContentState extends State<PopupContent> {
     'Adventure activities',
     'Beaches',
     'Boating',
-    'Mountain',
+    'Hills',
     'Museum',
-    'Temples',
-    'Waterfall',
+    'Temple',
+    'Waterfalls',
     'Wild Life Sanctuary'
   ];
   List<String> locationOptions = [
@@ -205,8 +205,7 @@ class _PopupContentState extends State<PopupContent> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SortedPlacesPage(
-                            currentLocation: selectedLocation!, days: 1),
+                        builder: (context) => const TourScheduleScreen(),
                       ),
                     );
                   },

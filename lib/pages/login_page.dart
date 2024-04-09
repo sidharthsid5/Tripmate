@@ -267,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(top: size.height * 0.025),
       child: Container(
         width: size.width * 0.9,
-        height: size.height * 0.1,
+        height: size.height * 0.09,
         decoration: BoxDecoration(
           color: isDarkMode ? Colors.black : const Color(0xffF7F8F8),
           borderRadius: const BorderRadius.all(Radius.circular(15)),

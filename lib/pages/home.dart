@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:keralatour/pages/location_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/map.dart';
-import 'package:keralatour/pages/status.dart';
+import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pallete.dart';
-
 import 'popup_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,7 +68,7 @@ class _HomePageState extends State<HomePage> {
           body: const TabBarView(
             children: [
               LocationPage(),
-              // StatusPage(),
+              TourScheduleScreen(),
               MapPage(),
               Icon(Icons.settings),
             ],
@@ -131,10 +130,10 @@ Widget menu() {
           text: "Location",
           icon: Icon(Icons.location_pin),
         ),
-        // Tab(
-        //   text: "Schedule",
-        //   icon: Icon(Icons.schedule_outlined),
-        // ),
+        Tab(
+          text: "Schedule",
+          icon: Icon(Icons.schedule_outlined),
+        ),
         Tab(
           text: "Map",
           icon: Icon(Icons.language_sharp),

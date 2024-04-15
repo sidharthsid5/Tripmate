@@ -143,4 +143,16 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to load tour schedules');
     }
   }
+
+  bool deleteUserSchedule = false;
+  Future<void> deleteTourSchedules() async {
+    deleteUserSchedule = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "deleteSchedules"));
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
 }

@@ -20,6 +20,7 @@ class _PopupContentState extends State<PopupContent> {
     'Adventure activities',
     'Beaches',
     'Boating',
+    'Church',
     'Hills',
     'Museum',
     'Temple',

@@ -23,9 +23,6 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tour Schedules'),
-      ),
       body: Center(
         child: FutureBuilder<List<TourSchedule>>(
           future: futureTourSchedules,
@@ -67,7 +64,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                     onPressed: () {
                       Provider.of<UserProvider>(context, listen: false)
                           .deleteTourSchedules();
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const TourScheduleScreen(),

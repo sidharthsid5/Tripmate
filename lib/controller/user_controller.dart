@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:keralatour/pages/home.dart';
+import 'package:keralatour/pages/home_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
@@ -79,7 +79,7 @@ class UserProvider extends ChangeNotifier {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const HomeScreeenPage(),
           ),
         );
       } else {

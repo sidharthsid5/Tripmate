@@ -5,6 +5,7 @@ import 'package:keralatour/pages/map.dart';
 import 'package:keralatour/pages/popup_screen.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pallete.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreeenPage extends StatefulWidget {
   const HomeScreeenPage({super.key});
@@ -70,7 +71,7 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
     );
   }
 
-  void _showLogoutDialog(BuildContext context) {
+  void _showLogoutDialog(BuildContext context) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -85,16 +86,12 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
               child: const Text("Cancel"),
             ),
             TextButton(
-              onPressed: () {
-                // Perform logout logic here
-                // For demonstration purposes, I'll just print a message
-                // print('Logout confirmed');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                ); // Close the dialog
+              onPressed: () async {
+                final _sharedPrefs = await SharedPreferences.getInstance();
+                await _sharedPrefs.clear();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (route) => false); // Close the dialog
               },
               child: const Text("Logout"),
             ),

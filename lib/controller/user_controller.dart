@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:keralatour/main.dart';
 import 'package:keralatour/pages/home_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
   String baseUrl = "http://10.11.2.236:4000/";
@@ -74,8 +76,10 @@ class UserProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         int userId = responseData['userId'];
-
         print('User ID retrieved: $userId');
+        // GOTO Home
+        final _sharedPrefs = await SharedPreferences.getInstance();
+        await _sharedPrefs.setBool(SAVE_KEY_NAME, true);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

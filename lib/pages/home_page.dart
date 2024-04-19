@@ -5,28 +5,31 @@ import 'package:keralatour/pages/map.dart';
 import 'package:keralatour/pages/popup_screen.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pallete.dart';
+import 'package:keralatour/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreeenPage extends StatefulWidget {
   const HomeScreeenPage({super.key});
+
+  static ValueNotifier<int> selectedIndexNotifier = ValueNotifier(0);
 
   @override
   State<HomeScreeenPage> createState() => _HomeScreeenPageState();
 }
 
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
-  int _currentSelectedIndex = 0;
   final _pages = [
     const LocationPage(),
     const TourScheduleScreen(),
     const MapPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _login();
+          _addSchedule();
         },
         foregroundColor: Pallete.green,
         backgroundColor: Pallete.whiteColor,
@@ -50,24 +53,15 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
           ),
         ],
       ),
-      body: _pages[_currentSelectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Pallete.green,
-        currentIndex: _currentSelectedIndex,
-        onTap: (newIndex) {
-          setState(() {
-            _currentSelectedIndex = newIndex;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.location_pin), label: 'Location'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.language_sharp), label: 'Map'),
-        ],
+      body: SafeArea(
+        child: ValueListenableBuilder(
+          valueListenable: HomeScreeenPage.selectedIndexNotifier,
+          builder: (BuildContext context, int updatedIndex, _) {
+            return _pages[updatedIndex];
+          },
+        ),
       ),
+      bottomNavigationBar: const TourBottomNavigator(),
     );
   }
 
@@ -101,17 +95,17 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
     );
   }
 
-  bool isLoggedIn = false;
+  bool addSchedule = false;
 
-  void _login() {
+  void _addSchedule() {
     setState(() {
-      isLoggedIn = true;
+      addSchedule = true;
     });
 
-    _showPopup();
+    _schedulePopup();
   }
 
-  void _showPopup() {
+  void _schedulePopup() {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,

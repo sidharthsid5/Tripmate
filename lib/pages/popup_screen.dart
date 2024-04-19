@@ -202,7 +202,7 @@ class _PopupContentState extends State<PopupContent> {
                       interests: tags,
                     );
 
-                    Navigator.of(context).pop();
+                    // Navigator.of(context).pop();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

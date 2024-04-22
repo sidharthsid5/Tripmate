@@ -3,7 +3,7 @@ import 'package:keralatour/pages/location_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/map.dart';
 import 'package:keralatour/pages/popup_screen.dart';
-import 'package:keralatour/pages/schedule.dart';
+import 'package:keralatour/pages/schedule_history.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,13 +20,14 @@ class HomeScreeenPage extends StatefulWidget {
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
   final _pages = [
     const LocationPage(),
-    const TourScheduleScreen(),
+    const ScheduleHistory(),
     const MapPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _addSchedule();

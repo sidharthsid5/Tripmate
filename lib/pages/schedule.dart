@@ -105,7 +105,7 @@ class TourSchedule {
 
     return TourSchedule(
       id: json['id'] ?? 0, // Provide a default value or handle appropriately
-      location: json['Tourlocation'] ??
+      location: json['location'] ??
           'nothing', // Provide a default value or handle appropriately
       distance: json['distance'] != null
           ? double.parse(json['distance'].toString())

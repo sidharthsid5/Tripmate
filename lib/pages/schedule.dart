@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
+import 'package:keralatour/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class TourScheduleScreen extends StatefulWidget {
@@ -50,11 +51,51 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       steps: snapshot.data!.map<Step>((tourSchedule) {
                         int index = snapshot.data!.indexOf(tourSchedule);
                         return Step(
-                          title: Text(tourSchedule
-                              .location), // Display the location as the title
-                          content: Text(
-                              '${tourSchedule.distance.toStringAsFixed(2)} km'), // Display the distance as the content
-                          isActive: _currentStep ==
+                          state: _currentStep > index
+                              ? StepState.complete
+                              : StepState.indexed,
+                          title: Text(
+                            tourSchedule.location,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ), // Display the location as the title
+                          subtitle: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Distance: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${tourSchedule.distance.toStringAsFixed(2)} km',
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Text(
+                          // 'Distance: ${tourSchedule.distance.toStringAsFixed(2)} km'),
+                          content: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: "Category: ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(text: "${tourSchedule.category}\n"),
+                                const TextSpan(
+                                  text: "Time to explore: ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(text: "${tourSchedule.time} Hours"),
+                              ],
+                            ),
+                          ),
+
+                          // Display the distance as the content
+                          isActive: _currentStep >=
                               index, // Set the step as active based on the current step index
                         );
                       }).toList(),
@@ -67,7 +108,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TourScheduleScreen(),
+                          builder: (context) => const HomeScreeenPage(),
                         ),
                       );
                       // Handle button press here
@@ -94,9 +135,14 @@ class TourSchedule {
   final int id;
   final String location;
   final double distance;
-
+  final int time;
+  final String category;
   TourSchedule(
-      {required this.id, required this.location, required this.distance});
+      {required this.id,
+      required this.location,
+      required this.distance,
+      required this.time,
+      required this.category});
 
   factory TourSchedule.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -110,6 +156,8 @@ class TourSchedule {
       distance: json['distance'] != null
           ? double.parse(json['distance'].toString())
           : 0.0, // Provide a default value or handle appropriately
+      time: json['time'] ?? 0,
+      category: json['category'] ?? 'Nil',
     );
   }
 }

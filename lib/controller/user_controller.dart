@@ -5,6 +5,7 @@ import 'package:keralatour/main.dart';
 import 'package:keralatour/pages/home_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/schedule.dart';
+import 'package:keralatour/pages/schedule_history.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -143,6 +144,20 @@ class UserProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => TourSchedule.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  bool isUserScheduleHistory = false;
+  Future<List<TourScheduleList>> getTourSchedulesHistory() async {
+    isUserSchedule = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "tourSchedules"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TourScheduleList.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load tour schedules');
     }

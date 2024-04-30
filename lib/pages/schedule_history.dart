@@ -27,13 +27,13 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While data is being fetched, show a loading indicator
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           // If there's an error fetching data, display an error message
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData && snapshot.data!.isEmpty) {
           // If there is no data available, display a message
-          return Center(child: Text('No tour schedules available.'));
+          return const Center(child: Text('No tour schedules available.'));
         } else {
           // If data is available, display it in a ListView
           return ListView.separated(
@@ -48,14 +48,14 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
                 child: ListTile(
                   leading: const Text(
                       ''), // You can put an icon or any other leading widget here
-                  title: Text(scheduleHistory.location),
+                  title: Text('Trip :${scheduleHistory.tourId}'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                           'Distance: ${scheduleHistory.distance.toStringAsFixed(2)} km'),
-                      Text('Category: ${scheduleHistory.category}'),
-                      Text('Time to explore: ${scheduleHistory.time} Hours'),
+                      //Text('Category: ${scheduleHistory.category}'),
+                      //Text('Time to explore: ${scheduleHistory.time} Hours'),
                     ],
                   ),
                 ),
@@ -71,17 +71,20 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
 }
 
 class TourScheduleList {
-  final int id;
+  //final int id;
+  final int tourId;
   final String location;
   final double distance;
-  final int time;
-  final String category;
-  TourScheduleList(
-      {required this.id,
-      required this.location,
-      required this.distance,
-      required this.time,
-      required this.category});
+  // final int time;
+  // final String category;
+  TourScheduleList({
+    //  required this.id,
+    required this.tourId,
+    required this.location,
+    required this.distance,
+    // required this.time,
+    //required this.category
+  });
 
   factory TourScheduleList.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -89,14 +92,16 @@ class TourScheduleList {
     }
 
     return TourScheduleList(
-      id: json['id'] ?? 0, // Provide a default value or handle appropriately
+      //id: json['loc_id'] ??
+      //   0, // Provide a default value or handle appropriately
       location: json['location'] ??
           'nothing', // Provide a default value or handle appropriately
       distance: json['distance'] != null
           ? double.parse(json['distance'].toString())
           : 0.0, // Provide a default value or handle appropriately
-      time: json['time'] ?? 0,
-      category: json['category'] ?? 'Nil',
+      // time: json['time'] ?? 0,
+      // category: json['category'] ?? 'Nil',
+      tourId: json['tourId'] ?? 0,
     );
   }
 }

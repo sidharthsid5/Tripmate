@@ -42,7 +42,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Day : $dayNo\n',
+                            text: '\nDay : $dayNo\n\n',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.red,
@@ -53,7 +53,8 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             text: snapshot.data![locationIndex].location,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.green, // Color for "Location"
+                              fontSize: 17,
+                              color: Pallete.green, // Color for "Location"
                             ),
                           ),
                         ],
@@ -63,16 +64,22 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       TextSpan(
                         children: [
                           const TextSpan(
-                            text: 'Distance: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            text: '\nDistance: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                           TextSpan(
                             text:
-                                '${snapshot.data![locationIndex].distance.toStringAsFixed(2)} km  ',
+                                '${snapshot.data![locationIndex].distance.toStringAsFixed(2)} km,  ',
                           ),
                           const TextSpan(
                             text: 'Arriving Time: ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                           TextSpan(
                             text: '${snapshot.data![locationIndex].time} ',
@@ -84,11 +91,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       TextSpan(
                         children: [
                           const TextSpan(
-                            text: "Category: ",
+                            text: "\nCategory: ",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: "${snapshot.data![locationIndex].category}\n",
+                            text:
+                                "${snapshot.data![locationIndex].category},   ",
                           ),
                           const TextSpan(
                             text: "Duration: ",
@@ -116,19 +124,25 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       state: _currentStep > locationIndex
                           ? StepState.complete
                           : StepState.indexed,
-                      title: Text(
-                        tourSchedule.location,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                      title: RichText(
+                        text: TextSpan(
+                          text: '\n${snapshot.data![locationIndex].location}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                            color: Pallete.green, // Color for "Location"
+                          ),
                         ),
                       ),
                       subtitle: Text.rich(
                         TextSpan(
                           children: [
                             const TextSpan(
-                              text: 'Distance: ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              text: '\nDistance: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                             TextSpan(
                               text:
@@ -136,10 +150,13 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             ),
                             const TextSpan(
                               text: 'Arriving Time: ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                             TextSpan(
-                              text: '${snapshot.data![locationIndex].time} ',
+                              text: '${snapshot.data![locationIndex].time} \n',
                             ),
                           ],
                         ),
@@ -149,12 +166,18 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           children: [
                             const TextSpan(
                               text: "Category: ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
-                            TextSpan(text: "${tourSchedule.category}  "),
+                            TextSpan(text: "${tourSchedule.category},  "),
                             const TextSpan(
                               text: "Duration: ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                             TextSpan(text: "${tourSchedule.duration} Hours"),
                           ],

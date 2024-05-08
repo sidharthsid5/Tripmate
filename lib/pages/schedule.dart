@@ -109,6 +109,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                         ],
                       ),
                     ),
+                    isActive: _currentStep >= locationIndex,
                   ),
                 );
 
@@ -196,23 +197,83 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
               return Column(
                 children: [
                   Expanded(
-                    child: Stepper(
-                      currentStep: _currentStep,
-                      onStepContinue: () {
-                        setState(() {
-                          if (_currentStep < snapshot.data!.length - 1) {
-                            _currentStep++;
-                          }
-                        });
-                      },
-                      onStepCancel: () {
-                        setState(() {
-                          if (_currentStep > 0) {
-                            _currentStep--;
-                          }
-                        });
-                      },
-                      steps: steps,
+                    child: Theme(
+                      data: ThemeData(
+                        colorScheme: ColorScheme.fromSwatch(
+                          primarySwatch:
+                              Colors.deepPurple, // Change primary color here
+                        ),
+                      ),
+                      child: Stepper(
+                        type: StepperType.vertical,
+                        currentStep: _currentStep,
+                        onStepContinue: () {
+                          setState(() {
+                            if (_currentStep < snapshot.data!.length - 1) {
+                              _currentStep++;
+                            }
+                          });
+                        },
+                        onStepCancel: () {
+                          setState(() {
+                            if (_currentStep > 0) {
+                              _currentStep--;
+                            }
+                          });
+                        },
+                        controlsBuilder:
+                            (BuildContext context, ControlsDetails details) {
+                          return Row(
+                            children: <Widget>[
+                              const SizedBox(height: 80.0),
+                              ElevatedButton(
+                                onPressed: details.onStepContinue,
+                                child: const Text(
+                                  'Confirm',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsetsGeometry>(
+                                    const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 7), // Adjust button padding
+                                  ),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors.black87,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8.0),
+                              OutlinedButton(
+                                onPressed: details.onStepCancel,
+                                child: const Text(
+                                  'Delete',
+                                  // style: TextStyle(color: Colors.black),
+                                ),
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0),
+                                      side:
+                                          const BorderSide(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        steps: steps,
+                      ),
                     ),
                   ),
                   ElevatedButton(

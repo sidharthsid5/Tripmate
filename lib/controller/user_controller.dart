@@ -161,6 +161,18 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  bool editUserSchedule = false;
+  Future<void> editTourSchedules(id) async {
+    editUserSchedule = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "editSchedules"));
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('Failed to delete tour schedules');
+    }
+  }
+
   bool isUserScheduleHistory = false;
   Future<List<TourScheduleList>> getTourSchedulesHistory() async {
     isUserScheduleHistory = true;

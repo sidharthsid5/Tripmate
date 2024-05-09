@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
 import 'package:keralatour/pages/home_page.dart';
-import 'package:keralatour/pallete.dart';
 import 'package:provider/provider.dart';
 
 class TourScheduleScreen extends StatefulWidget {
@@ -50,11 +49,13 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: snapshot.data![locationIndex].location,
+                            text:
+                                '${snapshot.data![locationIndex].location} ${snapshot.data![locationIndex].id.toString()}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
-                              color: Pallete.green, // Color for "Location"
+                              color: Colors
+                                  .deepPurpleAccent, // Color for "Location"
                             ),
                           ),
                         ],
@@ -131,7 +132,8 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
-                            color: Pallete.green, // Color for "Location"
+                            color:
+                                Colors.deepPurpleAccent, // Color for "Location"
                           ),
                         ),
                       ),
@@ -230,7 +232,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 onPressed: details.onStepContinue,
                                 child: const Text(
                                   'Confirm',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.green),
                                 ),
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all<
@@ -243,22 +245,67 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
+                                      side:
+                                          const BorderSide(color: Colors.green),
                                     ),
                                   ),
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                    Colors.black87,
+                                    Colors.white,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 8.0),
-                              OutlinedButton(
-                                onPressed: details.onStepCancel,
+                              ElevatedButton(
+                                onPressed: () {
+                                  int id = snapshot.data![locationIndex].id;
+
+                                  // Call the backend using Provider to delete the location
+                                  Provider.of<UserProvider>(context,
+                                          listen: false)
+                                      .editTourSchedules(id);
+                                },
                                 child: const Text(
                                   'Delete',
-                                  // style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.red),
                                 ),
                                 style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsetsGeometry>(
+                                    const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 7,
+                                    ),
+                                  ),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0),
+                                      side: const BorderSide(color: Colors.red),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors
+                                        .white, // Example color, change as needed
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8.0),
+                              ElevatedButton(
+                                onPressed: details.onStepCancel,
+                                child: const Text(
+                                  'Back',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                      EdgeInsetsGeometry>(
+                                    const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 7,
+                                    ),
+                                  ),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -266,6 +313,11 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                       side:
                                           const BorderSide(color: Colors.black),
                                     ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Colors
+                                        .white, // Example color, change as needed
                                   ),
                                 ),
                               ),
@@ -325,7 +377,8 @@ class TourSchedule {
     }
 
     return TourSchedule(
-      id: json['id'] ?? 0, // Provide a default value or handle appropriately
+      id: json['schedule_id'] ??
+          0, // Provide a default value or handle appropriately
       duration: json['time'] ?? 0,
       location: json['location'] ??
           'nothing', // Provide a default value or handle appropriately

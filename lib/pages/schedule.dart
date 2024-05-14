@@ -49,8 +49,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             ),
                           ),
                           TextSpan(
-                            text:
-                                '${snapshot.data![locationIndex].location} ${snapshot.data![locationIndex].id.toString()}',
+                            text: '${snapshot.data![locationIndex].location} ',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,

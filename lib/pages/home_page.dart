@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/pages/location_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/map.dart';
@@ -27,6 +28,7 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NaviBar(),
       backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
         onPressed: () {

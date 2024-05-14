@@ -16,7 +16,7 @@ class NaviBar extends StatelessWidget {
             accountEmail: const Text('abhijith@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.asset('assets/images/logo.png'),
+                child: Image.asset('assets/images/profile.jpg'),
               ),
             ),
             decoration: const BoxDecoration(

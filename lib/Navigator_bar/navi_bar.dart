@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/controller/user_controller.dart';
 import 'package:keralatour/pages/login_page.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NaviBar extends StatelessWidget {
   const NaviBar({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: const Text('Abhi'),
-            accountEmail: const Text('abhijith@gmail.com'),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.asset('assets/images/profile.jpg'),
-              ),
-            ),
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              // image: DecorationImage(
-              //   image: AssetImage('assets/images/logo.png'),
-              //   fit: BoxFit.cover,
-              // ),
-            ),
+          Consumer<UserProvider>(
+            builder: (context, userProvider, _) {
+              return UserAccountsDrawerHeader(
+                accountName: Text(userProvider.userDetails.name),
+                accountEmail: Text(userProvider.userDetails.email),
+                currentAccountPicture: CircleAvatar(
+                  child: ClipOval(
+                    child: Image.asset('assets/images/profile.jpg'),
+                  ),
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.account_box),
@@ -60,6 +61,30 @@ class NaviBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class UserDetails {
+  final int userid;
+  final String email;
+  final String name;
+
+  UserDetails({
+    required this.userid,
+    required this.email,
+    required this.name,
+  });
+
+  factory UserDetails.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      throw Exception('Invalid JSON data');
+    }
+
+    return UserDetails(
+      userid: json['uid'] ?? 0,
+      email: json['uemail'] ?? 'Unknown',
+      name: json['uname'] ?? 'Unknown',
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/pages/home_page.dart';
 import 'package:keralatour/pages/login_page.dart';
@@ -95,6 +96,21 @@ class UserProvider extends ChangeNotifier {
     } finally {
       isUserRegistering = false;
       notifyListeners();
+    }
+  }
+
+  late UserDetails _userDetails = UserDetails(userid: 0, email: '', name: '');
+
+  UserDetails get userDetails => _userDetails;
+
+  Future<void> getUserDetails() async {
+    final response = await http.get(Uri.parse(baseUrl + "signin"));
+    if (response.statusCode == 200) {
+      final dynamic jsonData = json.decode(response.body);
+      _userDetails = UserDetails.fromJson(jsonData);
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load user details');
     }
   }
 

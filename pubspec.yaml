@@ -37,6 +37,7 @@ dependencies:
   http: ^1.1.2
   provider: ^6.1.1
   shared_preferences: ^2.2.3
+  csv: ^5.1.1
 
 dev_dependencies:
 
@@ -64,6 +65,7 @@ flutter:
     - assets/images/
     - assets/images/logo.png
     - assets/svgs/
+    - assets/Twitter Data.csv
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

@@ -15,8 +15,8 @@ class NaviBar extends StatelessWidget {
           Consumer<UserProvider>(
             builder: (context, userProvider, _) {
               return UserAccountsDrawerHeader(
-                accountName: Text(userProvider.userDetails.name),
-                accountEmail: Text(userProvider.userDetails.email),
+                accountName: const Text('Abhi Lal'),
+                accountEmail: const Text("abhi@gmail.com"),
                 currentAccountPicture: CircleAvatar(
                   child: ClipOval(
                     child: Image.asset('assets/images/profile.jpg'),

@@ -33,6 +33,7 @@ class _AppState extends State<App> {
       title: 'Tourism Guide',
       // home: HomeScreeenPage(),
       home: SplashScreen(),
+      //home: TravelSummaryScreen(),
     );
   }
 }

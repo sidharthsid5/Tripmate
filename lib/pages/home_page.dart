@@ -3,6 +3,7 @@ import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/pages/location_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/map.dart';
+import 'package:keralatour/pages/mini_home.dart';
 import 'package:keralatour/pages/popup_screen.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pallete.dart';
@@ -20,6 +21,7 @@ class HomeScreeenPage extends StatefulWidget {
 
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
   final _pages = [
+    HomePage(),
     const LocationPage(),
     const TourScheduleScreen(),
     const MapPage(),

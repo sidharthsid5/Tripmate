@@ -98,3 +98,51 @@ class _TravelSummaryScreenState extends State<TravelSummaryScreen> {
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:csv/csv.dart';
+// import 'package:flutter/services.dart' show rootBundle;
+
+// class TravelSummaryScreen extends StatefulWidget {
+//   const TravelSummaryScreen({super.key});
+
+//   @override
+//   _TravelSummaryScreenState createState() => _TravelSummaryScreenState();
+// }
+
+// class _TravelSummaryScreenState extends State<TravelSummaryScreen> {
+//   List<List<dynamic>> _data = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadCSV();
+//   }
+
+//   Future<void> loadCSV() async {
+//     final rawData = await rootBundle.loadString("assets/Final.csv");
+//     List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+//     setState(() {
+//       _data = listData;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Travel Summary'),
+//       ),
+//       body: _data.isEmpty
+//           ? const Center(child: CircularProgressIndicator())
+//           : ListView.builder(
+//               itemCount: _data.length,
+//               itemBuilder: (context, index) {
+//                 return ListTile(
+//                   title: Text(_data[index].join(', ')), // Display CSV rows
+//                 );
+//               },
+//             ),
+//     );
+//   }
+// }

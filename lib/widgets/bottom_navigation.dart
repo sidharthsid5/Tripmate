@@ -18,6 +18,7 @@ class TourBottomNavigator extends StatelessWidget {
             HomeScreeenPage.selectedIndexNotifier.value = newIndex;
           },
           items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.location_pin), label: 'Location'),
             BottomNavigationBarItem(

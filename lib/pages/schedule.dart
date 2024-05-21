@@ -53,8 +53,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
-                              color: Colors
-                                  .deepPurpleAccent, // Color for "Location"
+                              color: Colors.indigo, // Color for "Location"
                             ),
                           ),
                         ],
@@ -131,8 +130,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
-                            color:
-                                Colors.deepPurpleAccent, // Color for "Location"
+                            color: Colors.indigo, // Color for "Location"
                           ),
                         ),
                       ),
@@ -202,7 +200,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       data: ThemeData(
                         colorScheme: ColorScheme.fromSwatch(
                           primarySwatch:
-                              Colors.deepPurple, // Change primary color here
+                              Colors.indigo, // Change primary color here
                         ),
                       ),
                       child: Stepper(
@@ -327,19 +325,19 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Provider.of<UserProvider>(context, listen: false)
-                          .deleteTourSchedules();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreeenPage(),
-                        ),
-                      );
-                    },
-                    child: const Text('Clear'),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     Provider.of<UserProvider>(context, listen: false)
+                  //         .deleteTourSchedules();
+                  //     Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const HomeScreeenPage(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text('Clear'),
+                  // ),
                 ],
               );
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {

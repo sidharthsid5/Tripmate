@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 class TourScheduleScreen extends StatefulWidget {

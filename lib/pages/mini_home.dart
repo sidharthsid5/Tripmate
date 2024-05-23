@@ -70,50 +70,50 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 40.0),
             // Grid of list tiles
-            // Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: GridView.count(
-            //     physics: const NeverScrollableScrollPhysics(),
-            //     shrinkWrap: true,
-            //     crossAxisCount: 2,
-            //     crossAxisSpacing: 10.0, // Spacing between the columns
-            //     mainAxisSpacing: 10.0, // Spacing between the rows
-            //     children: gridItems.map((item) {
-            //       return GridTile(
-            //         child: Container(
-            //           decoration: BoxDecoration(
-            //             color: Colors.white,
-            //             borderRadius: BorderRadius.circular(8.0),
-            //           ),
-            //           child: Column(
-            //             children: [
-            //               AspectRatio(
-            //                 aspectRatio: 1.5,
-            //                 child: ClipRRect(
-            //                   borderRadius: BorderRadius.circular(8.0),
-            //                   child: Image.network(
-            //                     item.imageUrl,
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 ),
-            //               ),
-            //               Padding(
-            //                 padding: const EdgeInsets.all(1.0),
-            //                 child: Text(
-            //                   item.title,
-            //                   style: const TextStyle(
-            //                     fontSize: 15.0,
-            //                     fontWeight: FontWeight.bold,
-            //                   ),
-            //                 ),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       );
-            //     }).toList(),
-            //   ),
-            // ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.0, // Spacing between the columns
+                mainAxisSpacing: 10.0, // Spacing between the rows
+                children: gridItems.map((item) {
+                  return GridTile(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.5,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                item.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Text(
+                              item.title,
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
       ),

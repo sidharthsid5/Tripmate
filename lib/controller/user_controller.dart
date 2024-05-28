@@ -7,6 +7,7 @@ import 'package:keralatour/pages/home_page.dart';
 import 'package:keralatour/pages/login_page.dart';
 import 'package:keralatour/pages/schedule.dart';
 import 'package:keralatour/pages/schedule_history.dart';
+import 'package:keralatour/pages/user_messages.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -198,6 +199,20 @@ class UserProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => TourScheduleList.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  bool isSocialMedia = false;
+  Future<List<SocialMedia>> getSocialMedia() async {
+    isSocialMedia = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "socialMedia"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => SocialMedia.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load tour schedules');
     }

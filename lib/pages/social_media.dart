@@ -1,3 +1,248 @@
+// import 'package:csv/csv.dart';
+// import 'package:flutter/material.dart';
+// import 'dart:convert';
+// import 'package:flutter/services.dart';
+
+// class CsvProcessingScreen extends StatefulWidget {
+//   const CsvProcessingScreen({super.key});
+
+//   @override
+//   _CsvProcessingScreenState createState() => _CsvProcessingScreenState();
+// }
+
+// class _CsvProcessingScreenState extends State<CsvProcessingScreen> {
+//   List<List<dynamic>> _data = [];
+//   List<Map<String, dynamic>> _processedData = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadCsvFile();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('CSV Processing'),
+//       ),
+//       body: _data.isEmpty
+//           ? const Center(child: CircularProgressIndicator())
+//           : ListView.builder(
+//               itemCount: _processedData.length,
+//               itemBuilder: (context, index) {
+//                 final row = _processedData[index];
+//                 return ListTile(
+//                   title: Text(
+//                       'User ID: ${row["User ID"]}, Latitude: ${row["Latitude"]}, Longitude: ${row["Longitude"]}'),
+//                   subtitle: Text(
+//                       'Matched Heading: ${row["Matched Heading"]}, Stay Duration: ${row["Stay Duration (minutes)"]} mins'),
+//                 );
+//               },
+//             ),
+//     );
+//   }
+
+//   Future<void> _loadCsvFile() async {
+//     final csvData = await rootBundle.loadString('assets/Final.csv');
+//     List<List<dynamic>> fields = const CsvToListConverter().convert(csvData);
+
+//     setState(() {
+//       _data = fields;
+//       _processedData = _processData(fields);
+//     });
+//   }
+
+//   List<Map<String, dynamic>> _processData(List<List<dynamic>> data) {
+//     final predefinedWords = {
+//       "Beach": ['Coast', 'Sunset', 'Walk', 'Waves', 'Sand', 'Ocean', 'Beach'],
+//       "Hotel": ['Room', 'Sleep', 'Lounge', 'Booking'],
+//       "Movie": ['Theater', 'watch', 'Popcorn', 'Film'],
+//       "Temple": ['God', 'Prayer', 'chapel', 'church', 'worship', 'Temple'],
+//     };
+
+//     List<Map<String, dynamic>> result = [];
+//     for (var row in data.skip(1)) {
+//       var message = row[4];
+//       var matchedHeadings = _wordMatch(message.toString(), predefinedWords);
+
+//       if (matchedHeadings.isNotEmpty) {
+//         var stayDuration = _calculateStayDuration(row, data);
+//         if (stayDuration > 10) {
+//           result.add({
+//             "User ID": row[0],
+//             "Latitude": row[2],
+//             "Longitude": row[3],
+//             "Timestamp": row[5],
+//             "Stay Duration (minutes)": stayDuration,
+//             "Matched Heading": matchedHeadings.keys.join(', '),
+//             "Percentage Matched": matchedHeadings.values.join(', '),
+//             "Message": message,
+//           });
+//         }
+//       }
+//     }
+//     return result;
+//   }
+
+//   Map<String, double> _wordMatch(
+//       String message, Map<String, List<String>> predefinedWords) {
+//     var messageLower = message.toLowerCase();
+//     var matchedHeadings = <String, double>{};
+
+//     predefinedWords.forEach((heading, words) {
+//       var matchedWords = words
+//           .where((word) => messageLower.contains(word.toLowerCase()))
+//           .length;
+//       var totalWords = words.length;
+//       var percentageMatched = (matchedWords / totalWords) * 100;
+
+//       if (percentageMatched > 0) {
+//         matchedHeadings[heading] = percentageMatched;
+//       }
+//     });
+
+//     return matchedHeadings;
+//   }
+
+//   double _calculateStayDuration(List<dynamic> row, List<List<dynamic>> data) {
+//     // Implement the stay duration calculation logic similar to the Python code
+//     // This is a placeholder implementation
+//     return 15.0;
+//   }
+// }
+
+// import 'package:csv/csv.dart';
+// import 'package:flutter/material.dart';
+// import 'package:file_picker/file_picker.dart';
+// import 'dart:convert';
+// import 'dart:io';
+
+// class CsvProcessingScreen extends StatefulWidget {
+//   const CsvProcessingScreen({super.key});
+
+//   @override
+//   _CsvProcessingScreenState createState() => _CsvProcessingScreenState();
+// }
+
+// class _CsvProcessingScreenState extends State<CsvProcessingScreen> {
+//   List<List<dynamic>> _data = [];
+//   List<Map<String, dynamic>> _processedData = [];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('CSV Processing'),
+//       ),
+//       body: Column(
+//         children: [
+//           ElevatedButton(
+//             onPressed: _pickFile,
+//             child: Text('Pick CSV File'),
+//           ),
+//           Expanded(
+//             child: _data.isEmpty
+//                 ? Center(child: Text('No data'))
+//                 : ListView.builder(
+//                     itemCount: _processedData.length,
+//                     itemBuilder: (context, index) {
+//                       final row = _processedData[index];
+//                       return ListTile(
+//                         title: Text(
+//                             'User ID: ${row["User ID"]}, Latitude: ${row["Latitude"]}, Longitude: ${row["Longitude"]}'),
+//                         subtitle: Text(
+//                             'Matched Heading: ${row["Matched Heading"]}, Stay Duration: ${row["Stay Duration (minutes)"]} mins'),
+//                       );
+//                     },
+//                   ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Future<void> _pickFile() async {
+//     FilePickerResult? result = await FilePicker.platform.pickFiles(
+//       type: FileType.custom,
+//       allowedExtensions: ['csv'],
+//     );
+
+//     if (result != null) {
+//       File file = File(result.files.single.path!);
+//       final input = file.openRead();
+//       final fields = await input
+//           .transform(utf8.decoder)
+//           .transform(CsvToListConverter())
+//           .toList();
+
+//       setState(() {
+//         _data = fields;
+//         _processedData = _processData(fields);
+//       });
+//     }
+//   }
+
+//   List<Map<String, dynamic>> _processData(List<List<dynamic>> data) {
+//     final predefinedWords = {
+//       "Beach": ['Coast', 'Sunset', 'Walk', 'Waves', 'Sand', 'Ocean', 'Beach'],
+//       "Hotel": ['Room', 'Sleep', 'Lounge', 'Booking'],
+//       "Movie": ['Theater', 'watch', 'Popcorn', 'Film'],
+//       "Temple": ['God', 'Prayer', 'chapel', 'church', 'worship', 'Temple'],
+//     };
+
+//     List<Map<String, dynamic>> result = [];
+//     for (var row in data.skip(1)) {
+//       // Skip header
+//       var message = row[4]; // Assuming the message is in the 5th column
+//       var matchedHeadings = _wordMatch(message.toString(), predefinedWords);
+
+//       if (matchedHeadings.isNotEmpty) {
+//         var stayDuration = _calculateStayDuration(row, data);
+//         if (stayDuration > 10) {
+//           result.add({
+//             "User ID": row[0],
+//             "Latitude": row[2],
+//             "Longitude": row[3],
+//             "Timestamp": row[5],
+//             "Stay Duration (minutes)": stayDuration,
+//             "Matched Heading": matchedHeadings.keys.join(', '),
+//             "Percentage Matched": matchedHeadings.values.join(', '),
+//             "Message": message,
+//           });
+//         }
+//       }
+//     }
+//     return result;
+//   }
+
+//   Map<String, double> _wordMatch(
+//       String message, Map<String, List<String>> predefinedWords) {
+//     var messageLower = message.toLowerCase();
+//     var matchedHeadings = <String, double>{};
+
+//     predefinedWords.forEach((heading, words) {
+//       var matchedWords = words
+//           .where((word) => messageLower.contains(word.toLowerCase()))
+//           .length;
+//       var totalWords = words.length;
+//       var percentageMatched = (matchedWords / totalWords) * 100;
+
+//       if (percentageMatched > 0) {
+//         matchedHeadings[heading] = percentageMatched;
+//       }
+//     });
+
+//     return matchedHeadings;
+//   }
+
+//   double _calculateStayDuration(List<dynamic> row, List<List<dynamic>> data) {
+//     // Implement the stay duration calculation logic similar to the Python code
+//     // This is a placeholder implementation
+//     return 15.0; // Assume 15 minutes for the purpose of this example
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'dart:convert';
@@ -51,15 +296,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (var row in _data.skip(1)) {
       // skip the header row if exists
-      String message = row[0].toString();
+      String message = row[6].toString();
       Map<String, double> matchedHeadings = wordMatch(message, predefinedWords);
 
       if (matchedHeadings.isNotEmpty) {
         processedData.add({
-          "User": row[1],
-          "Time": row[2],
-          "Latitude": row[3],
-          "Longitude": row[4],
+          "User": row[6],
+          "Time": row[4],
+          "Latitude": row[1],
+          "Longitude": row[2],
           "Message": message,
           "Matched Headings": matchedHeadings,
         });
@@ -72,9 +317,9 @@ class _MyHomePageState extends State<MyHomePage> {
     processedData.sort((a, b) {
       int userComparison = a["User"].compareTo(b["User"]);
       if (userComparison != 0) return userComparison;
-      int timeComparison = DateFormat('HH:mm')
+      int timeComparison = DateFormat('HH:mm:ss')
           .parse(a["Time"])
-          .compareTo(DateFormat('HH:mm').parse(b["Time"]));
+          .compareTo(DateFormat('HH:mm:ss').parse(b["Time"]));
       if (timeComparison != 0) return timeComparison;
       int latComparison = a["Latitude"].compareTo(b["Latitude"]);
       if (latComparison != 0) return latComparison;

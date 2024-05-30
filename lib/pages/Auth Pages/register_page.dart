@@ -1,6 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/login_page.dart';
+import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
 import 'package:keralatour/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

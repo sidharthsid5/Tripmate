@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/pages/home_page.dart';
-import 'package:keralatour/pages/login_page.dart';
-import 'package:keralatour/pages/schedule.dart';
-import 'package:keralatour/pages/schedule_history.dart';
+import 'package:keralatour/pages/Home%20Pages/home_page.dart';
+import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
+import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
 import 'package:keralatour/pages/user_messages.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -115,18 +115,18 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  bool isUserInterest = false;
-  Future<void> userInterest({
+  bool iscreateUserSchedule = false;
+  Future<void> createUserSchedule({
     required String location,
     required String days,
     required List<String> interests,
   }) async {
     try {
-      isUserInterest = true;
+      iscreateUserSchedule = true;
       notifyListeners();
 
       final response = await http.post(
-        Uri.parse(baseUrl + "userinterest"),
+        Uri.parse(baseUrl + "createSchedule"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -147,7 +147,7 @@ class UserProvider extends ChangeNotifier {
     } catch (e) {
       print('Error: $e');
     } finally {
-      isUserInterest = false;
+      iscreateUserSchedule = false;
       notifyListeners();
     }
   }
@@ -195,7 +195,7 @@ class UserProvider extends ChangeNotifier {
     isUserScheduleHistory = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse(baseUrl + "tourSchedules"));
+    final response = await http.get(Uri.parse(baseUrl + "scheduleHistory"));
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => TourScheduleList.fromJson(e)).toList();

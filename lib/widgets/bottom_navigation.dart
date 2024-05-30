@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/pages/home_page.dart';
+import 'package:keralatour/pages/Home%20Pages/home_page.dart';
 import 'package:keralatour/pallete.dart';
 
 class TourBottomNavigator extends StatelessWidget {
@@ -23,6 +23,8 @@ class TourBottomNavigator extends StatelessWidget {
                 icon: Icon(Icons.location_pin), label: 'Location'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.schedule_send), label: 'Schedule History'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.language_sharp), label: 'Map'),
           ],

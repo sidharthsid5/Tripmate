@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/pages/home_page.dart';
-import 'package:keralatour/pages/login_page.dart';
+import 'package:keralatour/pages/Home%20Pages/home_page.dart';
+import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

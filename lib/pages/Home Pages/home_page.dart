@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
-import 'package:keralatour/pages/location_page.dart';
-import 'package:keralatour/pages/login_page.dart';
-import 'package:keralatour/pages/map.dart';
-import 'package:keralatour/pages/mini_home.dart';
-import 'package:keralatour/pages/popup_screen.dart';
-import 'package:keralatour/pages/schedule.dart';
+import 'package:keralatour/pages/Home%20Pages/location_page.dart';
+import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/pages/Home%20Pages/map.dart';
+import 'package:keralatour/pages/Home%20Pages/mini_home.dart';
+import 'package:keralatour/pages/Schedule%20pages/popup_screen.dart';
+import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
+import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,7 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
     HomePage(),
     const LocationPage(),
     const TourScheduleScreen(),
+    const ScheduleHistory(),
     const MapPage(),
   ];
 

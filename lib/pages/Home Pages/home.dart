@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
-import 'package:keralatour/pages/Home%20Pages/location_page.dart';
+import 'package:keralatour/pages/Home%20Pages/live_loc.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/pages/Home%20Pages/map.dart';
-import 'package:keralatour/pages/Home%20Pages/mini_home.dart';
+import 'package:keralatour/pages/Home%20Pages/map_pscreen.dart';
+import 'package:keralatour/pages/Home%20Pages/places.dart';
+
+import 'package:keralatour/pages/Home%20Pages/tourist_places.dart';
 import 'package:keralatour/pages/Schedule%20pages/popup_screen.dart';
 import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
 import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
@@ -22,7 +24,7 @@ class HomeScreeenPage extends StatefulWidget {
 
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
   final _pages = [
-    HomePage(),
+    const TouristPlacesScreen(),
     const LocationPage(),
     const TourScheduleScreen(),
     const ScheduleHistory(),

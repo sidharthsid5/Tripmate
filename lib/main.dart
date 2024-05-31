@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/pages/Home%20Pages/splash_page.dart';
+import 'package:keralatour/pages/Home%20Pages/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/controller/user_controller.dart';
 

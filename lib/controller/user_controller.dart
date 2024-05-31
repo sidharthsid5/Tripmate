@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/pages/Home%20Pages/home_page.dart';
+import 'package:keralatour/pages/Home%20Pages/home.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/pages/Home%20Pages/places.dart';
+import 'package:keralatour/pages/Home%20Pages/tourist_places.dart';
 import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
 import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
 import 'package:keralatour/pages/user_messages.dart';
@@ -217,4 +219,29 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to load tour schedules');
     }
   }
+
+  bool isTouristLocation = false;
+  Future<List<TouristLocation>> fetchTouristLocation() async {
+    isTouristLocation = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "placedetails"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TouristLocation.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  //  Future<List<GridItem>> fetchGridItems() async {
+  //   final response = await http.get(Uri.parse(baseUrl + "placedetails"));
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> body = json.decode(response.body);
+  //     List<GridItem> gridItems = body.map((item) => GridItem.fromJson(item)).toList();
+  //     return gridItems;
+  //   } else {
+  //     throw Exception('Failed to load grid items');
+  //   }
+  // }
 }

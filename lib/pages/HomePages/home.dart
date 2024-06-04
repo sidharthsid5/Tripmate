@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
-import 'package:keralatour/pages/Home%20Pages/live_loc.dart';
+import 'package:keralatour/pages/HomePages/live_loc.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/pages/Home%20Pages/map_pscreen.dart';
-import 'package:keralatour/pages/Home%20Pages/places.dart';
-
-import 'package:keralatour/pages/Home%20Pages/tourist_places.dart';
-import 'package:keralatour/pages/Schedule%20pages/popup_screen.dart';
-import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
-import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
+import 'package:keralatour/pages/HomePages/map_pscreen.dart';
+import 'package:keralatour/pages/HomePages/places.dart';
+import 'package:keralatour/pages/Schedule/popup_screen.dart';
+import 'package:keralatour/pages/Schedule/schedule.dart';
+import 'package:keralatour/pages/Schedule/schedule_history.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/pages/Auth%20Pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,11 @@ class NaviBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.account_box),
             title: const Text('Profile'),
-            onTap: () => print('Profile'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.notification_important),

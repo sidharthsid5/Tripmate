@@ -231,13 +231,13 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                   style: TextStyle(color: Colors.green),
                                 ),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15,
                                         vertical: 7), // Adjust button padding
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -246,7 +246,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                     Colors.white,
                                   ),
                                 ),
@@ -266,14 +266,14 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                   style: TextStyle(color: Colors.red),
                                 ),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                       horizontal: 15,
                                       vertical: 7,
                                     ),
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -281,7 +281,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                     Colors
                                         .white, // Example color, change as needed
                                   ),
@@ -295,14 +295,14 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                       horizontal: 15,
                                       vertical: 7,
                                     ),
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -311,7 +311,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                     Colors
                                         .white, // Example color, change as needed
                                   ),

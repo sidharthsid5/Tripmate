@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/pages/Home%20Pages/home.dart';
+import 'package:keralatour/pages/HomePages/home.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/pages/Home%20Pages/places.dart';
-import 'package:keralatour/pages/Home%20Pages/tourist_places.dart';
-import 'package:keralatour/pages/Schedule%20pages/schedule.dart';
-import 'package:keralatour/pages/Schedule%20pages/schedule_history.dart';
+import 'package:keralatour/pages/HomePages/places.dart';
+import 'package:keralatour/pages/Schedule/schedule.dart';
+import 'package:keralatour/pages/Schedule/schedule_history.dart';
+import 'package:keralatour/pages/live_message.dart';
 import 'package:keralatour/pages/user_messages.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -215,6 +215,20 @@ class UserProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => SocialMedia.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  bool isLiveMessages = false;
+  Future<List<LiveMessages>> getLiveMessages() async {
+    isLiveMessages = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "socialMedia"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => LiveMessages.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load tour schedules');
     }

@@ -23,6 +23,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       body: Center(
         child: FutureBuilder<List<TourSchedule>>(
           future: futureTourSchedules,

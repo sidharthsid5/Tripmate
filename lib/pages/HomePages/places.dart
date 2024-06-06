@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:keralatour/controller/user_controller.dart';
+import 'package:keralatour/pages/HomePages/place_details.dart';
 import 'package:provider/provider.dart';
 
 class TouristPlacesScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _HomePageState extends State<TouristPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white12,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,9 +54,7 @@ class _HomePageState extends State<TouristPlacesScreen> {
                             width: MediaQuery.of(context).size.width,
                             margin:
                                 const EdgeInsets.symmetric(horizontal: 0.50),
-                            decoration: const BoxDecoration(
-                              color: Colors.grey,
-                            ),
+                            decoration: const BoxDecoration(),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
                               child: Image.network(
@@ -93,6 +93,13 @@ class _HomePageState extends State<TouristPlacesScreen> {
                             // Handle tap on Grid Item
                             print('Grid Item ${item.title} tapped');
                             // Navigate to detail page, show dialog, etc.
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailScreen(placeId: item.placeId),
+                              ),
+                            );
                           },
                           child: GridTile(
                             child: Container(
@@ -121,6 +128,7 @@ class _HomePageState extends State<TouristPlacesScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.center,
+                                      selectionColor: Colors.red,
                                     ),
                                   ),
                                 ],
@@ -145,13 +153,15 @@ class _HomePageState extends State<TouristPlacesScreen> {
 }
 
 class TouristLocation {
+  final int placeId;
   final String? title;
   final String? imageUrl;
 
-  TouristLocation(this.title, this.imageUrl);
+  TouristLocation(this.placeId, this.title, this.imageUrl);
 
   factory TouristLocation.fromJson(Map<String, dynamic> json) {
     return TouristLocation(
+      json['loc_id'],
       json['location'],
       json['image'],
     );

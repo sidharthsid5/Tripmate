@@ -258,4 +258,13 @@ class UserProvider extends ChangeNotifier {
   //     throw Exception('Failed to load grid items');
   //   }
   // }
+  Future<TouristLocation> fetchTouristLocationDetails(int placeId) async {
+    final response = await http.get(Uri.parse(baseUrl + "place/$placeId"));
+
+    if (response.statusCode == 200) {
+      return TouristLocation.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load details');
+    }
+  }
 }

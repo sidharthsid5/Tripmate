@@ -21,8 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
 
     // Initialize controllers with initial data
-    _nameController = TextEditingController(text: 'John Doe');
-    _emailController = TextEditingController(text: 'johndoe@example.com');
+    _nameController = TextEditingController(text: 'Abhijith Lal');
+    _emailController = TextEditingController(text: 'abhilal03@gmail.com');
     _passwordController = TextEditingController(text: 'password123');
   }
 
@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     // Handle selection from Google Drive here
                     // For demonstration purposes, just print a message
-                    print("Select Image from Google Drive");
+                    // print("Select Image from Google Drive");
                     Navigator.pop(context);
                   },
                 ),
@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       right: 0,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.green,
                           shape: BoxShape.circle,
                         ),
@@ -152,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.green, width: 2.0),
+                  borderSide: const BorderSide(color: Colors.green, width: 2.0),
                 ),
               ),
             ),
@@ -170,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.green, width: 2.0),
+                  borderSide: const BorderSide(color: Colors.green, width: 2.0),
                 ),
               ),
             ),
@@ -188,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.green, width: 2.0),
+                  borderSide: const BorderSide(color: Colors.green, width: 2.0),
                 ),
               ),
               obscureText: true,
@@ -217,11 +217,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _saveProfile() {
     // Save changes to profile
-    String newName = _nameController.text;
-    String newEmail = _emailController.text;
-    String newPassword = _passwordController.text;
+    // String newName = _nameController.text;
+    // String newEmail = _emailController.text;
+    // String newPassword = _passwordController.text;
 
     // Update profile with new data
-    print('Profile updated');
+    // print('Profile updated');
   }
 }

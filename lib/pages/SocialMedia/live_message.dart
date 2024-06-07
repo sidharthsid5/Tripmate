@@ -82,13 +82,13 @@ class _UserMessagesState extends State<LiveMessage> {
                   future: Future.delayed(Duration(seconds: index * 4)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     } else {
                       final tileData = allMatches[index];
 
                       return Container(
-                        margin: EdgeInsets.all(8.0),
-                        padding: EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(10.0),
@@ -96,7 +96,7 @@ class _UserMessagesState extends State<LiveMessage> {
                         child: ListTile(
                           title: Text(
                             'There is a ${tileData.matchingPercentage.toStringAsFixed(2)}% chance that ${tileData.socialMedia.user} has stopped at "${tileData.socialMedia.latitude}° N, ${tileData.socialMedia.longitude}° E" due to the presence of ${tileData.matchedHeading}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),

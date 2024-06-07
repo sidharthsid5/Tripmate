@@ -1,19 +1,19 @@
-import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/Schedule/schedule.dart';
+import 'package:keralatour/pages/Schedule/schedule_history.dart';
 import 'package:keralatour/pallete.dart';
-import 'package:keralatour/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 
 class PopupContent extends StatefulWidget {
-  const PopupContent({super.key});
+  const PopupContent({Key? key}) : super(key: key);
 
   @override
   _PopupContentState createState() => _PopupContentState();
 }
 
-class _PopupContentState extends State<PopupContent> {
+class _PopupContentState extends State<PopupContent>
+    with SingleTickerProviderStateMixin {
   int tag = 1;
   List<String> tags = [];
   List<String> options = [
@@ -57,6 +57,109 @@ class _PopupContentState extends State<PopupContent> {
     '10',
   ];
   String? selectedDays;
+
+  bool _isLoading = false;
+
+  void _generateTourPlan() {
+    // Check if any field is null or empty
+    if (selectedLocation == null || selectedDays == null || tags.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("Please fill in all fields."),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    Provider.of<UserProvider>(context, listen: false).createUserSchedule(
+      location: selectedLocation!,
+      days: selectedDays!,
+      interests: tags,
+    );
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+
+      showSuccessPopup(context);
+    });
+  }
+
+  void showSuccessPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Column(
+            children: [
+              Text(
+                "Tour Schedule Created Successfully",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(height: 10),
+              Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 50,
+              ),
+            ],
+          ),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          actions: <Widget>[
+            Center(
+              child: TextButton.icon(
+                label: const Text(
+                  "Continue",
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.green, // Change icon color here
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ScheduleHistory(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -161,7 +264,6 @@ class _PopupContentState extends State<PopupContent> {
                   source: options,
                   value: (i, v) => v,
                   label: (i, v) => v,
-                  // disabled: (i, v) => [0, 2, 5].contains(i),
                 ),
                 choiceActiveStyle: const C2ChoiceStyle(
                   color: Pallete.green,
@@ -184,34 +286,66 @@ class _PopupContentState extends State<PopupContent> {
               ),
               const SizedBox(height: 30),
               AnimatedPadding(
-                duration: const Duration(milliseconds: 500),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 1.0, horizontal: 0.80),
-                child: ButtonWidget(
-                  text: "Generate Tour Plan",
-                  backColor: const [Pallete.green, Pallete.green],
-                  textColor: const [
-                    Colors.white,
-                    Colors.white,
-                  ],
-                  onPressed: () {
-                    Provider.of<UserProvider>(context, listen: false)
-                        .createUserSchedule(
-                      location: selectedLocation!,
-                      days: selectedDays!,
-                      interests: tags,
-                    );
-
-                    Navigator.of(context).pop();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourScheduleScreen(),
+                  duration: const Duration(milliseconds: 500),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 10.00),
+                  child: ElevatedButton(
+                    onPressed: _isLoading ||
+                            selectedLocation == null ||
+                            selectedDays == null ||
+                            tags.isEmpty
+                        ? null
+                        : _generateTourPlan,
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(Colors.green),
+                      shadowColor: WidgetStateProperty.all<Color>(Colors.green),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            _isLoading ? Colors.green : Colors.green,
+                            _isLoading ? Colors.lightGreen : Colors.lightGreen,
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      child: _isLoading
+                          ? const Center(
+                              child: SizedBox(
+                                width: 24.0,
+                                height: 24.0,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  valueColor:
+                                      AlwaysStoppedAnimation<Color>(Colors.red),
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Generate Tour Plan",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                  )),
             ],
           ),
         ),

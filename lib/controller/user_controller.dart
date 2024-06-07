@@ -8,8 +8,8 @@ import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
 import 'package:keralatour/pages/HomePages/places.dart';
 import 'package:keralatour/pages/Schedule/schedule.dart';
 import 'package:keralatour/pages/Schedule/schedule_history.dart';
-import 'package:keralatour/pages/live_message.dart';
-import 'package:keralatour/pages/user_messages.dart';
+import 'package:keralatour/pages/SocialMedia/live_message.dart';
+import 'package:keralatour/pages/SocialMedia/user_messages.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

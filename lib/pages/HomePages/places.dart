@@ -44,7 +44,7 @@ class _HomePageState extends State<TouristPlacesScreen> {
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enableInfiniteScroll: true,
                       autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
+                          const Duration(milliseconds: 600),
                       viewportFraction: 0.8,
                     ),
                     items: snapshot.data!.map((item) {

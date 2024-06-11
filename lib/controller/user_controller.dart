@@ -180,18 +180,6 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  bool editUserSchedule = false;
-  Future<void> editTourSchedules(id) async {
-    editUserSchedule = true;
-    notifyListeners();
-
-    final response = await http.get(Uri.parse(baseUrl + "editSchedules"));
-    if (response.statusCode == 200) {
-    } else {
-      throw Exception('Failed to delete tour schedules');
-    }
-  }
-
   bool isUserScheduleHistory = false;
   Future<List<TourScheduleList>> getTourSchedulesHistory() async {
     isUserScheduleHistory = true;
@@ -265,6 +253,15 @@ class UserProvider extends ChangeNotifier {
       return TouristLocation.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load details');
+    }
+  }
+
+  Future<TourSchedule> editTourSchedules(int id) async {
+    final response = await http.get(Uri.parse(baseUrl + "tourschedules/$id"));
+    if (response.statusCode == 200) {
+      return TourSchedule.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load tour schedule details');
     }
   }
 }

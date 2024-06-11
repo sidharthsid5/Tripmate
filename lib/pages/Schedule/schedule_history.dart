@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
+import 'package:keralatour/pages/Schedule/schedule.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +24,10 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Schedule History'),
-        backgroundColor: Colors.green, // Customize the app bar color here
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Schedule History'),
+      //   backgroundColor: Colors.green, // Customize the app bar color here
+      // ),
       body: Container(
         color: Colors.white, // Set your desired background color here
         child: FutureBuilder<List<TourScheduleList>>(
@@ -50,6 +51,7 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
                   final scheduleHistory = snapshot.data![index];
                   return Card(
                     elevation: 2,
+                    color: Colors.white,
                     shadowColor: Pallete.backgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -84,6 +86,11 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
                         trailing: const Icon(
                             Icons.arrow_forward_ios), // Trailing icon
                         onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const TourScheduleScreen()),
+                          );
                           // Handle tap on ListTile if needed
                         },
                       ),

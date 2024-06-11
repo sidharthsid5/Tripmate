@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/controller/user_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:keralatour/controller/user_controller.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class TourScheduleScreen extends StatefulWidget {
   const TourScheduleScreen({super.key});
@@ -11,6 +13,7 @@ class TourScheduleScreen extends StatefulWidget {
 
 class _TourScheduleScreenState extends State<TourScheduleScreen> {
   late Future<List<TourSchedule>> futureTourSchedules;
+  int _currentStep = 0;
 
   @override
   void initState() {
@@ -19,22 +22,50 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
         Provider.of<UserProvider>(context, listen: false).getTourSchedules();
   }
 
-  int _currentStep = 0;
+  Future<void> editTourSchedule(int id) async {
+    final url = Uri.parse('http://10.11.2.236:4000/tourschedules/$id');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        TourSchedule tourSchedule = TourSchedule.fromJson(jsonResponse);
+        // Handle the fetched tour schedule details as needed
+        print('Fetched tour schedule: ${tourSchedule.location}');
+        // Reload tour schedules data
+        setState(() {
+          futureTourSchedules =
+              Provider.of<UserProvider>(context, listen: false)
+                  .getTourSchedules();
+          _currentStep = 0; // Reset the current step to the first step
+        });
+      } else {
+        print('Error fetching tour schedule: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching tour schedule: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.white,
       body: Center(
         child: FutureBuilder<List<TourSchedule>>(
           future: futureTourSchedules,
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Text('No tour schedules available.');
+            } else {
               List<Step> steps = [];
-              int dayNo = 1; // Initialize day number
+              int dayNo = 1;
               int locationIndex = 0;
 
               while (locationIndex < snapshot.data!.length) {
-                // Add "Day" and "Location" in the title with different colors
                 steps.add(
                   Step(
                     title: RichText(
@@ -44,16 +75,16 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             text: '\nDay : $dayNo\n\n',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.red,
+                              color: Colors.redAccent,
                               fontSize: 18,
                             ),
                           ),
                           TextSpan(
-                            text: '${snapshot.data![locationIndex].location} ',
+                            text: snapshot.data![locationIndex].location,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
-                              color: Colors.indigo, // Color for "Location"
+                              color: Colors.green,
                             ),
                           ),
                         ],
@@ -65,9 +96,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           const TextSpan(
                             text: '\nDistance: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                                fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           TextSpan(
                             text:
@@ -76,9 +105,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           const TextSpan(
                             text: 'Arriving Time: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                                fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           TextSpan(
                             text: '${snapshot.data![locationIndex].time} ',
@@ -114,7 +141,6 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
 
                 locationIndex++;
 
-                // Add the next two locations without the "Day" in the title
                 for (int i = 0;
                     i < 3 && locationIndex < snapshot.data!.length;
                     i++) {
@@ -126,11 +152,11 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                           : StepState.indexed,
                       title: RichText(
                         text: TextSpan(
-                          text: '\n${snapshot.data![locationIndex].location}',
+                          text: '\n${tourSchedule.location}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
-                            color: Colors.indigo, // Color for "Location"
+                            color: Colors.green,
                           ),
                         ),
                       ),
@@ -140,9 +166,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             const TextSpan(
                               text: '\nDistance: ',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                             TextSpan(
                               text:
@@ -151,12 +175,10 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             const TextSpan(
                               text: 'Arriving Time: ',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                             TextSpan(
-                              text: '${snapshot.data![locationIndex].time} \n',
+                              text: '${tourSchedule.time} \n',
                             ),
                           ],
                         ),
@@ -167,17 +189,13 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                             const TextSpan(
                               text: "Category: ",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                             TextSpan(text: "${tourSchedule.category},  "),
                             const TextSpan(
                               text: "Duration: ",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                                  fontWeight: FontWeight.bold, fontSize: 14),
                             ),
                             TextSpan(text: "${tourSchedule.duration} Hours"),
                           ],
@@ -189,7 +207,6 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                   locationIndex++;
                 }
 
-                // Increment day number for the next group
                 dayNo++;
               }
 
@@ -198,17 +215,15 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                   Expanded(
                     child: Theme(
                       data: ThemeData(
-                        colorScheme: ColorScheme.fromSwatch(
-                          primarySwatch:
-                              Colors.indigo, // Change primary color here
-                        ),
+                        colorScheme:
+                            ColorScheme.fromSwatch(primarySwatch: Colors.green),
                       ),
                       child: Stepper(
                         type: StepperType.vertical,
                         currentStep: _currentStep,
                         onStepContinue: () {
                           setState(() {
-                            if (_currentStep < snapshot.data!.length - 1) {
+                            if (_currentStep < steps.length - 1) {
                               _currentStep++;
                             }
                           });
@@ -227,16 +242,13 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                               const SizedBox(height: 80.0),
                               ElevatedButton(
                                 onPressed: details.onStepContinue,
-                                child: const Text(
-                                  'Confirm',
-                                  style: TextStyle(color: Colors.green),
-                                ),
+                                child: const Text('Confirm',
+                                    style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
                                   padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 7), // Adjust button padding
+                                        horizontal: 15, vertical: 7),
                                   ),
                                   shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -248,60 +260,46 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                   ),
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
-                                    Colors.white,
-                                  ),
+                                          Colors.green),
                                 ),
                               ),
                               const SizedBox(width: 8.0),
                               ElevatedButton(
                                 onPressed: () {
-                                  int id = snapshot.data![locationIndex].id;
-
-                                  // Call the backend using Provider to delete the location
-                                  Provider.of<UserProvider>(context,
-                                          listen: false)
-                                      .editTourSchedules(id);
+                                  int id = snapshot.data![_currentStep].id;
+                                  editTourSchedule(id);
                                 },
-                                child: const Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.red),
-                                ),
+                                child: const Text('Remove',
+                                    style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
                                   padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 7,
-                                    ),
+                                        horizontal: 15, vertical: 7),
                                   ),
                                   shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
-                                      side: const BorderSide(color: Colors.red),
+                                      side: const BorderSide(
+                                          color: Colors.redAccent),
                                     ),
                                   ),
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
-                                    Colors
-                                        .white, // Example color, change as needed
-                                  ),
+                                          Colors.red),
                                 ),
                               ),
                               const SizedBox(width: 8.0),
                               ElevatedButton(
                                 onPressed: details.onStepCancel,
-                                child: const Text(
-                                  'Back',
-                                  style: TextStyle(color: Colors.black),
-                                ),
+                                child: const Text('Back',
+                                    style: TextStyle(color: Colors.black)),
                                 style: ButtonStyle(
                                   padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 7,
-                                    ),
+                                        horizontal: 15, vertical: 7),
                                   ),
                                   shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -313,9 +311,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                   ),
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
-                                    Colors
-                                        .white, // Example color, change as needed
-                                  ),
+                                          Colors.white),
                                 ),
                               ),
                             ],
@@ -325,27 +321,9 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       ),
                     ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     Provider.of<UserProvider>(context, listen: false)
-                  //         .deleteTourSchedules();
-                  //     Navigator.pushReplacement(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => const HomeScreeenPage(),
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: const Text('Clear'),
-                  // ),
                 ],
               );
-            } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-              return const Text('No tour schedules available.');
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
             }
-            return const CircularProgressIndicator();
           },
         ),
       ),
@@ -360,30 +338,25 @@ class TourSchedule {
   final double distance;
   final String time;
   final String category;
-  TourSchedule(
-      {required this.id,
-      required this.duration,
-      required this.location,
-      required this.distance,
-      required this.time,
-      required this.category});
 
-  factory TourSchedule.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      throw Exception('Invalid JSON data');
-    }
+  TourSchedule({
+    required this.id,
+    required this.duration,
+    required this.location,
+    required this.distance,
+    required this.time,
+    required this.category,
+  });
 
+  factory TourSchedule.fromJson(Map<String, dynamic> json) {
     return TourSchedule(
-      id: json['schedule_id'] ??
-          0, // Provide a default value or handle appropriately
+      id: json['schedule_id'] ?? 0,
       duration: json['time'] ?? 0,
-      location: json['location'] ??
-          'nothing', // Provide a default value or handle appropriately
+      location: json['location'] ?? 'nothing',
       distance: json['distance'] != null
           ? double.parse(json['distance'].toString())
-          : 0.0, // Provide a default value or handle appropriately
-      time: json['Time'] ?? 0,
-
+          : 0.0,
+      time: json['Time'] ?? 'N/A',
       category: json['category'] ?? 'Nil',
     );
   }

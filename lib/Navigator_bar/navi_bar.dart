@@ -6,27 +6,50 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NaviBar extends StatelessWidget {
-  const NaviBar({super.key});
+  final int userId;
+
+  const NaviBar({Key? key, required this.userId}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           Consumer<UserProvider>(
             builder: (context, userProvider, _) {
-              return UserAccountsDrawerHeader(
-                accountName: const Text('Abhi Lal'),
-                accountEmail: const Text("abhi@gmail.com"),
-                currentAccountPicture: CircleAvatar(
-                  child: ClipOval(
-                    child: Image.asset('assets/images/profile.jpg'),
+              if (userProvider.firstName == null ||
+                  userProvider.lastName == null ||
+                  userProvider.email == null) {
+                return UserAccountsDrawerHeader(
+                  accountName: Text("Loading..."),
+                  accountEmail: Text(""),
+                  currentAccountPicture: CircleAvatar(
+                    child: ClipOval(
+                      child: Image.asset('assets/images/profile.jpg'),
+                    ),
                   ),
-                ),
-                decoration: const BoxDecoration(
-                  color: Colors.green,
-                ),
-              );
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                  ),
+                );
+              } else {
+                return UserAccountsDrawerHeader(
+                  accountName: Text(
+                      "${userProvider.firstName} ${userProvider.lastName}"),
+                  accountEmail: Text("${userProvider.email}"),
+                  currentAccountPicture: CircleAvatar(
+                    child: ClipOval(
+                      child: Image.asset('assets/images/profile.jpg'),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                  ),
+                );
+              }
             },
           ),
           ListTile(
@@ -66,30 +89,6 @@ class NaviBar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class UserDetails {
-  final int userid;
-  final String email;
-  final String name;
-
-  UserDetails({
-    required this.userid,
-    required this.email,
-    required this.name,
-  });
-
-  factory UserDetails.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      throw Exception('Invalid JSON data');
-    }
-
-    return UserDetails(
-      userid: json['uid'] ?? 0,
-      email: json['uemail'] ?? 'Unknown',
-      name: json['uname'] ?? 'Unknown',
     );
   }
 }

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/Navigator_bar/navi_bar.dart';
+import 'package:keralatour/controller/user_controller.dart';
 import 'package:keralatour/pages/HomePages/live_loc.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
 import 'package:keralatour/pages/HomePages/map_pscreen.dart';
 import 'package:keralatour/pages/HomePages/places.dart';
-import 'package:keralatour/pages/Schedule/popup_screen.dart';
+import 'package:keralatour/pages/Schedule/interest_page.dart';
 import 'package:keralatour/pages/Schedule/schedule.dart';
 import 'package:keralatour/pages/Schedule/schedule_history.dart';
 import 'package:keralatour/pallete.dart';
 import 'package:keralatour/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreeenPage extends StatefulWidget {
-  const HomeScreeenPage({super.key});
+  final int userId;
+
+  const HomeScreeenPage({Key? key, required this.userId}) : super(key: key);
 
   static ValueNotifier<int> selectedIndexNotifier = ValueNotifier(0);
 
@@ -30,9 +34,16 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false)
+        .fetchUserDetails(widget.userId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NaviBar(),
+      drawer: NaviBar(userId: widget.userId), // Pass userId to NaviBar
       backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -47,10 +58,11 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
         backgroundColor: Pallete.whiteColor,
         title: const Text("Tourism"),
         titleTextStyle: const TextStyle(
-            color: Pallete.green,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic),
+          color: Pallete.green,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

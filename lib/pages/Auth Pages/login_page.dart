@@ -54,10 +54,13 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 200,
-                        height: 100,
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 200,
+                          height: 100,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                       AnimatedPadding(
                         duration: const Duration(milliseconds: 500),
-                        padding: EdgeInsets.only(top: size.height * 0.025),
+                        padding: EdgeInsets.only(top: size.height * 0.020),
                         child: ButtonWidget(
                           text: "Login",
                           backColor: isDarkMode

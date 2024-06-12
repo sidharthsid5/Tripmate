@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:keralatour/Navigator_bar/navi_bar.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/pages/HomePages/home.dart';
 import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
@@ -81,6 +80,7 @@ class UserProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         int userId = responseData['userId'];
+
         print('User ID retrieved: $userId');
         // GOTO Home
         final _sharedPrefs = await SharedPreferences.getInstance();
@@ -88,32 +88,19 @@ class UserProvider extends ChangeNotifier {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreeenPage(),
+            builder: (context) => HomeScreeenPage(
+              userId: userId,
+            ),
           ),
         );
       } else {
         CustomAlert.errorMessage("Invalid Username or password", context);
       }
     } catch (e) {
-      print('error occured $e');
+      print('error occurred $e');
     } finally {
       isUserRegistering = false;
       notifyListeners();
-    }
-  }
-
-  late UserDetails _userDetails = UserDetails(userid: 0, email: '', name: '');
-
-  UserDetails get userDetails => _userDetails;
-
-  Future<void> getUserDetails() async {
-    final response = await http.get(Uri.parse(baseUrl + "signin"));
-    if (response.statusCode == 200) {
-      final dynamic jsonData = json.decode(response.body);
-      _userDetails = UserDetails.fromJson(jsonData);
-      notifyListeners();
-    } else {
-      throw Exception('Failed to load user details');
     }
   }
 
@@ -262,6 +249,30 @@ class UserProvider extends ChangeNotifier {
       return TourSchedule.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load tour schedule details');
+    }
+  }
+
+  int? _userId;
+  String? _firstName;
+  String? _lastName;
+  String? _email;
+
+  String? get firstName => _firstName;
+  String? get lastName => _lastName;
+  String? get email => _email;
+
+  Future<void> fetchUserDetails(int userId) async {
+    final response = await http.get(Uri.parse(baseUrl + "user/$userId"));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      _userId = userId;
+      _firstName = data['uname'];
+      _lastName = data['ulastName'];
+      _email = data['uemail'];
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load user details');
     }
   }
 }

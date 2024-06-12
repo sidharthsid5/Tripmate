@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
           'assets/images/logo.png',
@@ -48,7 +49,10 @@ class _SplashScreenState extends State<SplashScreen> {
       gotoLogin();
     } else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx1) => const HomeScreeenPage()),
+        MaterialPageRoute(
+            builder: (ctx1) => const HomeScreeenPage(
+                  userId: 1,
+                )),
       );
     }
   }

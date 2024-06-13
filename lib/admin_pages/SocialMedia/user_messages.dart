@@ -29,16 +29,12 @@ class _ScheduleHistoryState extends State<UserMessages> {
         future: futurescheduleHistory,
         builder: (context, AsyncSnapshot<List<SocialMedia>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // While data is being fetched, show a loading indicator
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // If there's an error fetching data, display an error message
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            // If there is no data available, display a message
             return const Center(child: Text('No tour schedules available.'));
           } else {
-            // Find rows with similar latitude and longitude
             List<SocialMedia> filteredList = [];
             for (int i = 0; i < snapshot.data!.length - 1; i++) {
               if (snapshot.data![i].latitude ==
@@ -50,11 +46,9 @@ class _ScheduleHistoryState extends State<UserMessages> {
             }
 
             if (filteredList.isEmpty) {
-              // If no matching rows are found, display a message
               return const Center(child: Text('No matching rows found.'));
             }
 
-            // Filter messages with specific keywords in four sets
             List<SocialMedia> matchedSet1 = filteredList
                 .where((socialMedia) => _containsSpecificWords(
                       socialMedia.messages,
@@ -98,26 +92,50 @@ class _ScheduleHistoryState extends State<UserMessages> {
                     ))
                 .toList();
 
-            // Display the report in a table
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('User')),
-                  DataColumn(label: Text('Latitude')),
-                  DataColumn(label: Text('Longitude')),
-                  DataColumn(label: Text('Speed')),
-                  DataColumn(label: Text('Time')),
-                  DataColumn(label: Text('Matched heading')),
-                  DataColumn(label: Text('Matching %')),
-                  DataColumn(label: Text('Message')),
-                ],
-                rows: [
-                  ..._buildDataRows(matchedSet1, 'Beach'),
-                  ..._buildDataRows(matchedSet2, 'Movie'),
-                  ..._buildDataRows(matchedSet3, 'Temple'),
-                  ..._buildDataRows(matchedSet4, 'Hotel'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 4,
+                  child: DataTable(
+                    columnSpacing: 16.0,
+                    headingRowColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.blueGrey),
+                    columns: const [
+                      DataColumn(
+                          label: Text('User',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Time',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Latitude',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Longitude',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Speed',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Matched heading',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Matching %',
+                              style: TextStyle(color: Colors.white))),
+                      DataColumn(
+                          label: Text('Message',
+                              style: TextStyle(color: Colors.white))),
+                    ],
+                    rows: [
+                      ..._buildDataRows(matchedSet1, 'Beach'),
+                      ..._buildDataRows(matchedSet2, 'Movie'),
+                      ..._buildDataRows(matchedSet3, 'Temple'),
+                      ..._buildDataRows(matchedSet4, 'Hotel'),
+                    ],
+                  ),
+                ),
               ),
             );
           }
@@ -127,7 +145,10 @@ class _ScheduleHistoryState extends State<UserMessages> {
   }
 
   List<DataRow> _buildDataRows(List<SocialMedia> list, String matchedHeading) {
-    return list.map((socialMedia) {
+    return list.asMap().entries.map((entry) {
+      int index = entry.key;
+      SocialMedia socialMedia = entry.value;
+
       List<String> keywords = [];
       if (matchedHeading == 'Beach') {
         keywords = ['Sunset', 'Walk', 'Waves', 'Sand', 'Ocean', 'Beach'];
@@ -142,16 +163,27 @@ class _ScheduleHistoryState extends State<UserMessages> {
       double matchingPercentage =
           _calculateMatchingPercentage(socialMedia.messages, keywords);
 
-      return DataRow(cells: [
-        DataCell(Text(socialMedia.user)),
-        DataCell(Text(socialMedia.latitude)),
-        DataCell(Text(socialMedia.longitude)),
-        DataCell(Text(socialMedia.speed)),
-        DataCell(Text(socialMedia.time)),
-        DataCell(Text(matchedHeading)),
-        DataCell(Text(matchingPercentage.toStringAsFixed(2))),
-        DataCell(Text(socialMedia.messages)),
-      ]);
+      return DataRow(
+        color: MaterialStateColor.resolveWith(
+          (states) => index % 2 == 0 ? Colors.grey.shade200 : Colors.white,
+        ),
+        cells: [
+          DataCell(Text(socialMedia.user)),
+          DataCell(Text(socialMedia.time)),
+          DataCell(Text(socialMedia.latitude)),
+          DataCell(Text(socialMedia.longitude)),
+          DataCell(Text(socialMedia.speed)),
+          DataCell(Text(matchedHeading)),
+          DataCell(Text(matchingPercentage.toStringAsFixed(2))),
+          DataCell(Container(
+            constraints: BoxConstraints(maxWidth: 200),
+            child: Text(
+              socialMedia.messages,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+        ],
+      );
     }).toList();
   }
 
@@ -165,23 +197,13 @@ class _ScheduleHistoryState extends State<UserMessages> {
   }
 
   double _calculateMatchingPercentage(String message, List<String> words) {
-    // Calculate the total number of words in the message
-    // double totalWords = message.split(' ').length.toDouble();
-    // Initialize a counter for matching words
     double matchingWords = 0.0;
-
-    // Iterate over each word in the provided list
     for (final word in words) {
-      // Check if the lowercase version of the message contains the lowercase version of the word
       if (message.toLowerCase().contains(word.toLowerCase())) {
-        // If a match is found, increment the matchingWords counter
         matchingWords++;
       }
     }
-
-    // Calculate the percentage of matching words
     double matchingPercentage = (matchingWords / words.length) * 100;
-
     return matchingPercentage;
   }
 }

@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:keralatour/admin_pages/SocialMedia/adminHome.dart';
+import 'package:keralatour/admin_pages/chart.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/pages/HomePages/home.dart';
-import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/pages/HomePages/places.dart';
-import 'package:keralatour/pages/Schedule/schedule.dart';
-import 'package:keralatour/pages/Schedule/schedule_history.dart';
-import 'package:keralatour/pages/SocialMedia/live_message.dart';
-import 'package:keralatour/pages/SocialMedia/user_messages.dart';
+import 'package:keralatour/user_pages/HomePages/home.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/user_pages/HomePages/places.dart';
+import 'package:keralatour/user_pages/Schedule/schedule.dart';
+import 'package:keralatour/user_pages/Schedule/schedule_history.dart';
+import 'package:keralatour/admin_pages/SocialMedia/live_message.dart';
+import 'package:keralatour/admin_pages/SocialMedia/user_messages.dart';
 import 'package:keralatour/widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -85,14 +87,23 @@ class UserProvider extends ChangeNotifier {
         // GOTO Home
         final _sharedPrefs = await SharedPreferences.getInstance();
         await _sharedPrefs.setBool(SAVE_KEY_NAME, true);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreeenPage(
-              userId: userId,
+        if (email == "admin@gmail.com" && password == "Admin") {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ReportsPage(),
             ),
-          ),
-        );
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreeenPage(
+                userId: userId,
+              ),
+            ),
+          );
+        }
       } else {
         CustomAlert.errorMessage("Invalid Username or password", context);
       }
@@ -204,6 +215,20 @@ class UserProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => LiveMessages.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  bool isTouristDetails = false;
+  Future<List<TouristDetail>> fetchTouristDetails() async {
+    isTouristDetails = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "touristdetails"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TouristDetail.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load tour schedules');
     }

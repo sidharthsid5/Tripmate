@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/pages/Auth%20Pages/profile.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +12,7 @@ class NaviBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
+    Provider.of<UserProvider>(context);
 
     return Drawer(
       child: ListView(

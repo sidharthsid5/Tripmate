@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/HomePages/place_details.dart';
+import 'package:keralatour/user_pages/HomePages/place_details.dart';
 import 'package:provider/provider.dart';
 
 class TouristPlacesScreen extends StatefulWidget {

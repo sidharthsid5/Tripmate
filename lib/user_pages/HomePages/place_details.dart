@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/pages/HomePages/places.dart';
+import 'package:keralatour/user_pages/HomePages/places.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/controller/user_controller.dart'; // Adjust the path based on your project structure
 

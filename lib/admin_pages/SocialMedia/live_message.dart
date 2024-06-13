@@ -79,7 +79,7 @@ class _UserMessagesState extends State<LiveMessage> {
               itemCount: allMatches.length,
               itemBuilder: (context, index) {
                 return FutureBuilder<void>(
-                  future: Future.delayed(Duration(seconds: index * 4)),
+                  future: Future.delayed(Duration(seconds: index * 6)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const SizedBox.shrink();

@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/pages/Auth%20Pages/forgot_password_page.dart';
-import 'package:keralatour/pages/Auth%20Pages/register_page.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/forgot_password_page.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/register_page.dart';
 import 'package:keralatour/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: buildTextField(
                             "Passsword", Icons.lock_outline, true, size,
                             (valuepassword) {
-                          if (valuepassword.length < 6) {
+                          if (valuepassword.length < 5) {
                             buildSnackError(
                               // Perform logout logic here
                               // For demonstration purposes, I'll just print a message

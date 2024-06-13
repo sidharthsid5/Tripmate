@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/pages/HomePages/home.dart';
+import 'package:keralatour/user_pages/HomePages/home.dart';
 import 'package:keralatour/pallete.dart';
 
 class TourBottomNavigator extends StatelessWidget {

@@ -24,14 +24,14 @@ class NaviBar extends StatelessWidget {
                   userProvider.lastName == null ||
                   userProvider.email == null) {
                 return UserAccountsDrawerHeader(
-                  accountName: Text("Loading..."),
-                  accountEmail: Text(""),
+                  accountName: const Text("Loading..."),
+                  accountEmail: const Text(""),
                   currentAccountPicture: CircleAvatar(
                     child: ClipOval(
                       child: Image.asset('assets/images/profile.jpg'),
                     ),
                   ),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.green,
                   ),
                 );

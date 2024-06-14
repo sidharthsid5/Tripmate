@@ -277,6 +277,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  // ignore: unused_field
   int? _userId;
   String? _firstName;
   String? _lastName;

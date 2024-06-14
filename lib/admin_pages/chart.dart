@@ -93,13 +93,13 @@ class _HomePageState extends State<TouristDetailScreen> {
                             // Handle tap on Grid Item
                             print('Grid Item ${item.title} tapped');
                             // Navigate to detail page, show dialog, etc.
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailScreen(placeId: item.placeId),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         DetailScreen(placeId: item.placeId),
+                            //   ),
+                            // );
                           },
                           child: GridTile(
                             child: Container(

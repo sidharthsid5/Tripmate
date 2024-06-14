@@ -96,8 +96,13 @@ class _HomePageState extends State<TouristPlacesScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailScreen(placeId: item.placeId),
+                                builder: (context) => DetailScreen(
+                                  placeId: item.placeId,
+                                  title: item.title ?? 'Unknown',
+                                  imageUrl: item.imageUrl ?? '',
+                                  details: item.details ?? '',
+                                  district: item.district ?? '',
+                                ),
                               ),
                             );
                           },
@@ -156,14 +161,19 @@ class TouristLocation {
   final int placeId;
   final String? title;
   final String? imageUrl;
+  final String? details;
+  final String? district;
 
-  TouristLocation(this.placeId, this.title, this.imageUrl);
+  TouristLocation(
+      this.placeId, this.title, this.imageUrl, this.details, this.district);
 
   factory TouristLocation.fromJson(Map<String, dynamic> json) {
     return TouristLocation(
-      json['loc_id'],
+      json['loc_id'] ?? 0,
       json['location'],
       json['image'],
+      json['description'],
+      json['district'],
     );
   }
 }

@@ -125,13 +125,13 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Text(
-                  //   'Image URL: $imageUrl',
-                  //   style: const TextStyle(
-                  //     fontSize: 18,
-                  //     color: Colors.black,
-                  //   ),
-                  // ),
+                  Text(
+                    'Image URL: $imageUrl',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
                   // Add more details or styling as needed
                 ],
               ),

@@ -5,6 +5,7 @@ import 'package:keralatour/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:keralatour/pallete.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -15,33 +16,60 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool checkedValue = false;
-  bool register = true;
   List textfieldsStrings = [
-    "", //firstName
-    "", //lastName
-    "", //email
-    "", //password
-    "", //confirmPassword
+    "", // firstName
+    "", // lastName
+    "", // email
+    "", // password
+    "", // confirmPassword
+    "Male", // sex
+    "", // age
+    "Select Country", // country
+    "", // currentYear
   ];
-  // final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final _firstnamekey = GlobalKey<FormState>();
   final _lastNamekey = GlobalKey<FormState>();
   final _emailKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
   final _confirmPasswordKey = GlobalKey<FormState>();
+  final _sexKey = GlobalKey<FormState>();
+  final _ageKey = GlobalKey<FormState>();
+  final _countryKey = GlobalKey<FormState>();
+  final _currentYearKey = GlobalKey<FormState>();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmpasswordController =
       TextEditingController();
   final TextEditingController _lastController = TextEditingController();
-  //TextEditingController  _addressController = TextEditingController();
+  final TextEditingController _sexController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _currentYearController = TextEditingController();
+
+  DateTime selectedYear = DateTime.now();
+
+  List<String> countries = [
+    "Select Country",
+    "United States",
+    "India",
+    "Canada",
+    "Australia",
+    "Germany",
+    "France",
+    "China",
+    "Japan",
+    "South Korea",
+    // Add more countries as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -193,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       Form(
                         child: buildTextField(
-                          "Passsword",
+                          "Password",
                           Icons.lock_outline,
                           true,
                           size,
@@ -216,7 +244,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       Form(
                         child: buildTextField(
-                          "Confirm Passsword",
+                          "Confirm Password",
                           Icons.lock_outline,
                           true,
                           size,
@@ -236,6 +264,55 @@ class _RegisterPageState extends State<RegisterPage> {
                           _confirmpasswordController,
                           isDarkMode,
                         ),
+                      ),
+                      buildDropdownField(
+                        "Sex",
+                        Icons.person_outline,
+                        size,
+                        ["Male", "Female", "Other"],
+                        _sexKey,
+                        5,
+                        isDarkMode,
+                      ),
+                      buildTextField(
+                        "Age",
+                        Icons.calendar_today_outlined,
+                        false,
+                        size,
+                        (valueage) {
+                          if (valueage.isEmpty ||
+                              int.tryParse(valueage) == null) {
+                            buildSnackError(
+                              'Invalid age',
+                              context,
+                              size,
+                            );
+                            return '';
+                          }
+                          return null;
+                        },
+                        _ageKey,
+                        6,
+                        _ageController,
+                        isDarkMode,
+                      ),
+                      buildDropdownField(
+                        "Country",
+                        Icons.public_outlined,
+                        size,
+                        countries,
+                        _countryKey,
+                        7,
+                        isDarkMode,
+                      ),
+                      buildYearPickerField(
+                        "Current Year",
+                        Icons.calendar_today_outlined,
+                        size,
+                        _currentYearKey,
+                        8,
+                        _currentYearController,
+                        isDarkMode,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -311,48 +388,51 @@ class _RegisterPageState extends State<RegisterPage> {
                         duration: const Duration(milliseconds: 500),
                         padding: EdgeInsets.only(top: size.height * 0.015),
                         child: ButtonWidget(
-                            text: "Register",
-                            backColor: isDarkMode
-                                ? [
-                                    Colors.black,
-                                    Colors.black,
-                                  ]
-                                : const [Pallete.green, Pallete.green],
-                            textColor: const [
-                              Colors.white,
-                              Colors.white,
-                            ],
-                            onPressed: () async {
-                              if (_firstnamekey.currentState!.validate()) {
-                                if (_lastNamekey.currentState!.validate()) {
-                                  if (_emailKey.currentState!.validate()) {
-                                    print(_emailKey.toString());
-                                    if (_passwordKey.currentState!.validate()) {
-                                      if (_confirmPasswordKey.currentState!
-                                          .validate()) {
-                                        if (checkedValue == false) {
-                                          buildSnackError(
-                                              'Accept our Privacy Policy and Term Of Use',
-                                              context,
-                                              size);
-                                        } else {
-                                          Provider.of<UserProvider>(context,
-                                                  listen: false)
-                                              .userRegistration(
-                                                  email: _emailController.text,
-                                                  name: _nameController.text,
-                                                  lastName:
-                                                      _lastController.text,
-                                                  password:
-                                                      _passwordController.text,
-                                                  context: context);
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
+                          text: "Register",
+                          backColor: isDarkMode
+                              ? [
+                                  Colors.black,
+                                  Colors.black,
+                                ]
+                              : const [Pallete.green, Pallete.green],
+                          textColor: const [
+                            Colors.white,
+                            Colors.white,
+                          ],
+                          onPressed: () async {
+                            if (_firstnamekey.currentState!.validate() &&
+                                _lastNamekey.currentState!.validate() &&
+                                _emailKey.currentState!.validate() &&
+                                _passwordKey.currentState!.validate() &&
+                                _confirmPasswordKey.currentState!.validate() &&
+                                _sexKey.currentState!.validate() &&
+                                _ageKey.currentState!.validate() &&
+                                _countryKey.currentState!.validate() &&
+                                _currentYearKey.currentState!.validate()) {
+                              if (checkedValue == false) {
+                                buildSnackError(
+                                  'Accept our Privacy Policy and Term Of Use',
+                                  context,
+                                  size,
+                                );
+                              } else {
+                                Provider.of<UserProvider>(context,
+                                        listen: false)
+                                    .userRegistration(
+                                  email: _emailController.text,
+                                  name: _nameController.text,
+                                  lastName: _lastController.text,
+                                  password: _passwordController.text,
+                                  sex: _sexController.text,
+                                  age: _ageController.text,
+                                  country: _countryController.text,
+                                  currentYear: _currentYearController.text,
+                                  context: context,
+                                );
                               }
-                            }),
+                            }
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -417,11 +497,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   bool pwVisible = false;
+
   Widget buildTextField(
     String hintText,
     IconData icon,
     bool password,
-    size,
+    Size size,
     FormFieldValidator validator,
     Key key,
     int stringToEdit,
@@ -523,16 +604,208 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackError(
-      String error, context, size) {
-    return ScaffoldMessenger.of(context).showSnackBar(
+  Widget buildDropdownField(
+    String hintText,
+    IconData icon,
+    Size size,
+    List<String> options,
+    Key key,
+    int stringToEdit,
+    bool isDarkMode,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(top: size.height * 0.025),
+      child: Container(
+        width: size.width * 0.9,
+        height: size.height * 0.09,
+        decoration: BoxDecoration(
+          color: isDarkMode ? Colors.black : const Color(0xffF7F8F8),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: Form(
+            key: key,
+            child: DropdownButtonFormField<String>(
+              value: textfieldsStrings[stringToEdit],
+              icon: Icon(icon, color: const Color(0xff7B6F72)),
+              style: TextStyle(
+                color: isDarkMode ? const Color(0xffADA4A5) : Colors.black,
+              ),
+              decoration: InputDecoration(
+                errorStyle: const TextStyle(height: 0),
+                hintStyle: const TextStyle(
+                  color: Color(0xffADA4A5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.green,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.borderColor,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.green,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding: EdgeInsets.only(
+                  top: size.height * 0.012,
+                ),
+                hintText: hintText,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.005,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: const Color(0xff7B6F72),
+                  ),
+                ),
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  textfieldsStrings[stringToEdit] = newValue!;
+                });
+              },
+              items: options.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildYearPickerField(
+    String hintText,
+    IconData icon,
+    Size size,
+    Key key,
+    int stringToEdit,
+    TextEditingController controller,
+    bool isDarkMode,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(top: size.height * 0.025),
+      child: Container(
+        width: size.width * 0.9,
+        height: size.height * 0.09,
+        decoration: BoxDecoration(
+          color: isDarkMode ? Colors.black : const Color(0xffF7F8F8),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(9.0),
+          child: Form(
+            key: key,
+            child: TextFormField(
+              controller: controller,
+              readOnly: true,
+              style: TextStyle(
+                color: isDarkMode ? const Color(0xffADA4A5) : Colors.black,
+              ),
+              decoration: InputDecoration(
+                errorStyle: const TextStyle(height: 0),
+                hintStyle: const TextStyle(
+                  color: Color(0xffADA4A5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.green,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.borderColor,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Pallete.green,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding: EdgeInsets.only(
+                  top: size.height * 0.012,
+                ),
+                hintText: hintText,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.005,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: const Color(0xff7B6F72),
+                  ),
+                ),
+              ),
+              onTap: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: selectedYear,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime.now(),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.dark(),
+                      child: child!,
+                    );
+                  },
+                );
+                if (picked != null && picked != selectedYear) {
+                  setState(() {
+                    selectedYear = picked;
+                    textfieldsStrings[stringToEdit] =
+                        DateFormat('yyyy').format(selectedYear);
+                    controller.text = textfieldsStrings[stringToEdit];
+                  });
+                }
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void buildSnackError(String text, BuildContext context, Size size) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.black,
-        content: SizedBox(
-          height: size.height * 0.02,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          height: size.height * 0.06,
+          decoration: const BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
           child: Center(
-            child: Text(error),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),

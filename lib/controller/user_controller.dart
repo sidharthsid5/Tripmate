@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/admin_pages/SocialMedia/adminHome.dart';
@@ -22,12 +23,20 @@ class UserProvider extends ChangeNotifier {
       required String password,
       required String name,
       required String lastName,
+      required String sex,
+      required String age,
+      required String country,
+      required String currentYear,
       required BuildContext context}) async {
     Map<String, dynamic> data = {
       'email': email,
       'name': name,
       'lastName': lastName,
-      'password': password
+      'password': password,
+      'sex': sex,
+      'age': age,
+      'country': country,
+      'currentYear': currentYear,
     };
     try {
       isUserRegistering = true;

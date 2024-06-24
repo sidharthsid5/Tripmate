@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
 
     // Initialize controllers with initial data
-    _nameController = TextEditingController(text: 'Abhijith Lal');
+    _nameController = TextEditingController(text: 'Abhi Lal');
     _emailController = TextEditingController(text: 'abhilal03@gmail.com');
     _passwordController = TextEditingController(text: 'password123');
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/user_pages/HomePages/place_details.dart';
 import 'package:provider/provider.dart';
 
 class TouristDetailScreen extends StatefulWidget {
@@ -24,57 +22,12 @@ class _HomePageState extends State<TouristDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white12,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 10.0),
-            // Slideshow at the top
-            FutureBuilder<List<TouristDetail>>(
-              future: futureTouristDetails,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200.0,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
-                      aspectRatio: 16 / 9,
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enableInfiniteScroll: true,
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 600),
-                      viewportFraction: 0.8,
-                    ),
-                    items: snapshot.data!.map((item) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 0.50),
-                            decoration: const BoxDecoration(),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.network(
-                                item.imageUrl ?? 'u',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-            const SizedBox(height: 40.0),
-            // Grid of list tiles
             FutureBuilder<List<TouristDetail>>(
               future: futureTouristDetails,
               builder: (context, snapshot) {
@@ -91,7 +44,7 @@ class _HomePageState extends State<TouristDetailScreen> {
                         return GestureDetector(
                           onTap: () {
                             // Handle tap on Grid Item
-                            print('Grid Item ${item.title} tapped');
+                            print('Grid Item ${item.userid} tapped');
                             // Navigate to detail page, show dialog, etc.
                             // Navigator.push(
                             //   context,
@@ -113,18 +66,53 @@ class _HomePageState extends State<TouristDetailScreen> {
                                     aspectRatio: 1.5,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        item.imageUrl ?? '',
-                                        fit: BoxFit.cover,
+                                      child: Text(
+                                        item.country ?? '',
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      item.title ?? 'Unknown',
+                                      item.userid ?? 'Unknown',
                                       style: const TextStyle(
                                         fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      selectionColor: Colors.red,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: Text(
+                                      item.sex ?? 'Unknown',
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      selectionColor: Colors.red,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: Text(
+                                      item.age ?? 'Unknown',
+                                      style: const TextStyle(
+                                        fontSize: 5.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      selectionColor: Colors.red,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: Text(
+                                      item.year ?? 'Unknown',
+                                      style: const TextStyle(
+                                        fontSize: 5.0,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.center,
@@ -153,17 +141,21 @@ class _HomePageState extends State<TouristDetailScreen> {
 }
 
 class TouristDetail {
-  final int placeId;
-  final String? title;
-  final String? imageUrl;
+  final String? age;
+  final String? userid;
+  final String? country;
+  final String? sex;
+  final String? year;
 
-  TouristDetail(this.placeId, this.title, this.imageUrl);
+  TouristDetail(this.age, this.userid, this.country, this.sex, this.year);
 
   factory TouristDetail.fromJson(Map<String, dynamic> json) {
     return TouristDetail(
-      json['Age'],
+      json['Age'] ?? 0,
       json['UserID'],
       json['Country'],
+      json['Sex'],
+      json['Year of Visit'],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/admin_pages/SocialMedia/adminHome.dart';
 import 'package:keralatour/admin_pages/chart.dart';
+import 'package:keralatour/admin_pages/graph.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/user_pages/HomePages/home.dart';
 import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';

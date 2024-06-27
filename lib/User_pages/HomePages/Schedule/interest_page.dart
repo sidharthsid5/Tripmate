@@ -93,7 +93,7 @@ class _PopupContentState extends State<PopupContent>
       interests: tags,
     );
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 4), () {
       setState(() {
         _isLoading = false;
       });
@@ -140,12 +140,12 @@ class _PopupContentState extends State<PopupContent>
                   ),
                 ),
                 icon: const Icon(
-                  Icons.arrow_forward_ios,
+                  Icons.arrow_circle_right,
                   color: Colors.green, // Change icon color here
                 ),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ScheduleHistory(),

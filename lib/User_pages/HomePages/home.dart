@@ -6,7 +6,6 @@ import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:keralatour/User_pages/HomePages/Location/map_pscreen.dart';
 import 'package:keralatour/User_pages/HomePages/Places/places.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/interest_page.dart';
-import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule_history.dart';
 import 'package:keralatour/Widgets/pallete.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
@@ -25,19 +24,23 @@ class HomeScreeenPage extends StatefulWidget {
 }
 
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
-  final _pages = [
-    const TouristPlacesScreen(),
-    const LocationPage(),
-    const TourScheduleScreen(),
-    const ScheduleHistory(),
-    const MapPage(),
-  ];
+  late List<Widget> _pages; // Define _pages as a late variable
 
   @override
   void initState() {
     super.initState();
+    _initializePages(); // Initialize _pages here
     Provider.of<UserProvider>(context, listen: false)
         .fetchUserDetails(widget.userId);
+  }
+
+  void _initializePages() {
+    _pages = [
+      const TouristPlacesScreen(),
+      const LocationPage(),
+      const ScheduleHistory(), // Pass userId to ScheduleHistory
+      const MapPage(),
+    ];
   }
 
   @override

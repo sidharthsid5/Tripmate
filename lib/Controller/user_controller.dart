@@ -161,11 +161,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool isUserSchedule = false;
-  Future<List<TourSchedule>> getTourSchedules() async {
+  Future<List<TourSchedule>> getTourSchedules(int tourId) async {
     isUserSchedule = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse(baseUrl + "tourSchedules"));
+    final response =
+        await http.get(Uri.parse(baseUrl + "tourSchedules/$tourId"));
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => TourSchedule.fromJson(e)).toList();

@@ -24,8 +24,6 @@ class TourBottomNavigator extends StatelessWidget {
             BottomNavigationBarItem(
                 icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.schedule_send), label: 'Schedule History'),
-            BottomNavigationBarItem(
                 icon: Icon(Icons.language_sharp), label: 'Map'),
           ],
         );

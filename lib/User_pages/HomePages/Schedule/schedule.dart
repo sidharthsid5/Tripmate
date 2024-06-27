@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class TourScheduleScreen extends StatefulWidget {
-  const TourScheduleScreen({super.key});
+  final int tourId;
+
+  const TourScheduleScreen({super.key, required this.tourId});
 
   @override
   _TourScheduleScreenState createState() => _TourScheduleScreenState();
@@ -18,8 +20,8 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    futureTourSchedules =
-        Provider.of<UserProvider>(context, listen: false).getTourSchedules();
+    futureTourSchedules = Provider.of<UserProvider>(context, listen: false)
+        .getTourSchedules(widget.tourId);
   }
 
   Future<void> editTourSchedule(int id) async {
@@ -35,7 +37,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
         setState(() {
           futureTourSchedules =
               Provider.of<UserProvider>(context, listen: false)
-                  .getTourSchedules();
+                  .getTourSchedules(widget.tourId);
           _currentStep = 0; // Reset the current step to the first step
         });
       } else {
@@ -245,12 +247,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Confirm',
                                     style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
-                                  padding: WidgetStateProperty.all<
+                                  padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: WidgetStateProperty.all<
+                                  shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -259,7 +261,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      WidgetStateProperty.all<Color>(
+                                      MaterialStateProperty.all<Color>(
                                           Colors.green),
                                 ),
                               ),
@@ -272,12 +274,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Remove',
                                     style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
-                                  padding: WidgetStateProperty.all<
+                                  padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: WidgetStateProperty.all<
+                                  shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -286,7 +288,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      WidgetStateProperty.all<Color>(
+                                      MaterialStateProperty.all<Color>(
                                           Colors.red),
                                 ),
                               ),
@@ -296,12 +298,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Back',
                                     style: TextStyle(color: Colors.black)),
                                 style: ButtonStyle(
-                                  padding: WidgetStateProperty.all<
+                                  padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: WidgetStateProperty.all<
+                                  shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -310,7 +312,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      WidgetStateProperty.all<Color>(
+                                      MaterialStateProperty.all<Color>(
                                           Colors.white),
                                 ),
                               ),

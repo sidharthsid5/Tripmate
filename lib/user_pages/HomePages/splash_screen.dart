@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> gotoLogin() async {
     await Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(seconds: 3),
     );
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (ctx1) => const HomeScreeenPage(
-                  userId: 5,
+                  userId: 1,
                 )),
       );
     }

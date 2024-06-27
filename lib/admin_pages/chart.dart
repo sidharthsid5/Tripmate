@@ -24,157 +24,326 @@ class _TouristDetailScreenState extends State<TouristDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Tourist Details'),
+        backgroundColor: Colors.teal,
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 10.0),
-            FutureBuilder<List<TouristDetail>>(
-              future: futureTouristDetails,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  // Grouping by country and counting users for each country
-                  final countryGroups = groupBy(
-                      snapshot.data!, (TouristDetail detail) => detail.country);
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 10.0),
+              FutureBuilder<List<TouristDetail>>(
+                future: futureTouristDetails,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // Grouping by country and counting users for each country
+                    final countryGroups = groupBy(snapshot.data!,
+                        (TouristDetail detail) => detail.country);
 
-                  // Calculating total count of users
-                  int totalCount = snapshot.data!.length;
+                    // Calculating total count of users
+                    int totalCount = snapshot.data!.length;
 
-                  // Calculating count of males and females
-                  int maleCount = snapshot.data!
-                      .where((detail) => detail.sex == 'M')
-                      .length;
-                  int femaleCount = snapshot.data!
-                      .where((detail) => detail.sex == 'F')
-                      .length;
+                    // Calculating count of males and females
+                    int maleCount = snapshot.data!
+                        .where((detail) => detail.sex == 'M')
+                        .length;
+                    int femaleCount = snapshot.data!
+                        .where((detail) => detail.sex == 'F')
+                        .length;
 
-                  // Calculating count of users in age ranges
-                  int age0to25Count = snapshot.data!
-                      .where(
-                          (detail) => _calculateAgeRange(detail.age!) == '0-25')
-                      .length;
-                  int age26to45Count = snapshot.data!
-                      .where((detail) =>
-                          _calculateAgeRange(detail.age!) == '26-45')
-                      .length;
-                  int age46to60Count = snapshot.data!
-                      .where((detail) =>
-                          _calculateAgeRange(detail.age!) == '46-60')
-                      .length;
-                  int age61to100Count = snapshot.data!
-                      .where((detail) =>
-                          _calculateAgeRange(detail.age!) == '61-100')
-                      .length;
+                    // Calculating count of users in age ranges
+                    int age0to25Count = snapshot.data!
+                        .where((detail) =>
+                            _calculateAgeRange(detail.age!) == '0-25')
+                        .length;
+                    int age26to45Count = snapshot.data!
+                        .where((detail) =>
+                            _calculateAgeRange(detail.age!) == '26-45')
+                        .length;
+                    int age46to60Count = snapshot.data!
+                        .where((detail) =>
+                            _calculateAgeRange(detail.age!) == '46-60')
+                        .length;
+                    int age61to100Count = snapshot.data!
+                        .where((detail) =>
+                            _calculateAgeRange(detail.age!) == '61-100')
+                        .length;
 
-                  // Grouping by year of visit and counting users for each year
-                  final yearGroups = groupBy(
-                      snapshot.data!, (TouristDetail detail) => detail.year);
+                    // Grouping by year of visit and counting users for each year
+                    final yearGroups = groupBy(
+                        snapshot.data!, (TouristDetail detail) => detail.year);
 
-                  // Building a list of Text widgets to display country counts
-                  final countryCountWidgets = countryGroups.entries
-                      .map((entry) =>
-                          Text('${entry.key}: ${entry.value.length}'))
-                      .toList();
+                    // Data for bar chart for age range
+                    var ageGroupData = [
+                      AgeGroup('0-25', age0to25Count, Colors.blue),
+                      AgeGroup('26-45', age26to45Count, Colors.green),
+                      AgeGroup('46-60', age46to60Count, Colors.orange),
+                      AgeGroup('61-100', age61to100Count, Colors.red),
+                    ];
 
-                  // Building a list of Text widgets to display year counts
-                  final yearCountWidgets = yearGroups.entries
-                      .map((entry) =>
-                          Text('${entry.key}: ${entry.value.length}'))
-                      .toList();
+                    // Data for bar chart for year
+                    var yearGroupData = yearGroups.entries
+                        .map((entry) => AgeGroup(entry.key ?? 'Unknown',
+                            entry.value.length, Colors.purple))
+                        .toList();
 
-                  // Data for bar chart
-                  var ageGroupData = [
-                    AgeGroup('0-25', age0to25Count, Colors.blue),
-                    AgeGroup('26-45', age26to45Count, Colors.green),
-                    AgeGroup('46-60', age46to60Count, Colors.orange),
-                    AgeGroup('61-100', age61to100Count, Colors.red),
-                  ];
+                    // Data for bar chart for gender
+                    var genderData = [
+                      AgeGroup('Male', maleCount, Colors.blue),
+                      AgeGroup('Female', femaleCount, Colors.pink),
+                    ];
 
-                  var series = [
-                    charts.Series(
-                      id: 'AgeGroups',
-                      data: ageGroupData,
-                      domainFn: (AgeGroup group, _) => group.ageGroup,
-                      measureFn: (AgeGroup group, _) => group.count,
-                      colorFn: (AgeGroup group, _) =>
-                          charts.ColorUtil.fromDartColor(group.color),
-                    )
-                  ];
+                    // Data for bar chart for country
+                    var countryData = countryGroups.entries
+                        .map((entry) => AgeGroup(entry.key ?? 'Unknown',
+                            entry.value.length, Colors.teal))
+                        .toList();
 
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
+                    var seriesAgeGroup = [
+                      charts.Series(
+                        id: 'AgeGroups',
+                        data: ageGroupData,
+                        domainFn: (AgeGroup group, _) => group.ageGroup,
+                        measureFn: (AgeGroup group, _) => group.count,
+                        colorFn: (AgeGroup group, _) =>
+                            charts.ColorUtil.fromDartColor(group.color),
+                      ),
+                    ];
+
+                    var seriesYearGroup = [
+                      charts.Series(
+                        id: 'YearGroups',
+                        data: yearGroupData,
+                        domainFn: (AgeGroup group, _) => group.ageGroup,
+                        measureFn: (AgeGroup group, _) => group.count,
+                        colorFn: (AgeGroup group, _) =>
+                            charts.ColorUtil.fromDartColor(group.color),
+                      ),
+                    ];
+
+                    var seriesGenderGroup = [
+                      charts.Series(
+                        id: 'GenderGroups',
+                        data: genderData,
+                        domainFn: (AgeGroup group, _) => group.ageGroup,
+                        measureFn: (AgeGroup group, _) => group.count,
+                        colorFn: (AgeGroup group, _) =>
+                            charts.ColorUtil.fromDartColor(group.color),
+                      ),
+                    ];
+
+                    var seriesCountryGroup = [
+                      charts.Series(
+                        id: 'CountryGroups',
+                        data: countryData,
+                        domainFn: (AgeGroup group, _) => group.ageGroup,
+                        measureFn: (AgeGroup group, _) => group.count,
+                        colorFn: (AgeGroup group, _) =>
+                            charts.ColorUtil.fromDartColor(group.color),
+                      ),
+                    ];
+
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text('Total Users: $totalCount'),
-                        Text('Male Users: $maleCount'),
-                        Text('Female Users: $femaleCount'),
-                        const SizedBox(height: 10.0),
-                        Text('Count of Users by Country:'),
-                        const SizedBox(height: 10.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: countryCountWidgets,
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text('Count of Users by Age Range:'),
-                        const SizedBox(height: 10.0),
-                        Text('0-25 years: $age0to25Count'),
-                        Text('26-45 years: $age26to45Count'),
-                        Text('46-60 years: $age46to60Count'),
-                        Text('61-100 years: $age61to100Count'),
-                        const SizedBox(height: 10.0),
-                        Text('Count of Users by Visit Year:'),
-                        const SizedBox(height: 10.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: yearCountWidgets,
-                        ),
-                        const SizedBox(height: 20.0),
-                        Text('Age Range Distribution:'),
-                        AspectRatio(
-                          aspectRatio: 1.5,
-                          child: charts.BarChart(
-                            series,
-                            animate: true,
-                            barGroupingType: charts.BarGroupingType.grouped,
-                            primaryMeasureAxis: charts.NumericAxisSpec(
-                              renderSpec: charts.GridlineRendererSpec(
-                                labelStyle: const charts.TextStyleSpec(
-                                  fontSize: 12,
-                                  color: charts.MaterialPalette.black,
+                        ExpansionTile(
+                          title: Text('Age Range Distribution'),
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.5,
+                              child: charts.BarChart(
+                                seriesAgeGroup,
+                                animate: true,
+                                barGroupingType: charts.BarGroupingType.grouped,
+                                primaryMeasureAxis: charts.NumericAxisSpec(
+                                  renderSpec: charts.GridlineRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
                                 ),
-                                lineStyle: charts.LineStyleSpec(
-                                  color:
-                                      charts.MaterialPalette.gray.shadeDefault,
+                                domainAxis: charts.OrdinalAxisSpec(
+                                  renderSpec: charts.SmallTickRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                            domainAxis: charts.OrdinalAxisSpec(
-                              renderSpec: charts.SmallTickRendererSpec(
-                                labelStyle: const charts.TextStyleSpec(
-                                  fontSize: 12,
-                                  color: charts.MaterialPalette.black,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'This graph shows the distribution of tourists based on their age ranges. '
+                                'The age ranges are divided into four groups: 0-25, 26-45, 46-60, and 61-100.',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('Year of Visit Distribution'),
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.5,
+                              child: charts.BarChart(
+                                seriesYearGroup,
+                                animate: true,
+                                barGroupingType: charts.BarGroupingType.grouped,
+                                primaryMeasureAxis: charts.NumericAxisSpec(
+                                  renderSpec: charts.GridlineRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
                                 ),
-                                lineStyle: charts.LineStyleSpec(
-                                  color:
-                                      charts.MaterialPalette.gray.shadeDefault,
+                                domainAxis: charts.OrdinalAxisSpec(
+                                  renderSpec: charts.SmallTickRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'This graph displays the number of tourists visiting each year. '
+                                'Each bar represents the total count of visitors for a specific year.',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('Gender Distribution'),
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.5,
+                              child: charts.BarChart(
+                                seriesGenderGroup,
+                                animate: true,
+                                barGroupingType: charts.BarGroupingType.grouped,
+                                primaryMeasureAxis: charts.NumericAxisSpec(
+                                  renderSpec: charts.GridlineRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
+                                ),
+                                domainAxis: charts.OrdinalAxisSpec(
+                                  renderSpec: charts.SmallTickRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'This graph shows the distribution of tourists by gender. '
+                                'It indicates the total count of male and female tourists.',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
+                        ),
+                        ExpansionTile(
+                          title: Text('Country Distribution'),
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.5,
+                              child: charts.BarChart(
+                                seriesCountryGroup,
+                                animate: true,
+                                barGroupingType: charts.BarGroupingType.grouped,
+                                primaryMeasureAxis: charts.NumericAxisSpec(
+                                  renderSpec: charts.GridlineRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
+                                ),
+                                domainAxis: charts.OrdinalAxisSpec(
+                                  renderSpec: charts.SmallTickRendererSpec(
+                                    labelStyle: const charts.TextStyleSpec(
+                                      fontSize: 12,
+                                      color: charts.MaterialPalette.black,
+                                    ),
+                                    lineStyle: charts.LineStyleSpec(
+                                      color: charts
+                                          .MaterialPalette.gray.shadeDefault,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'This graph displays the number of tourists from different countries. '
+                                'Each bar represents the total count of visitors from a specific country.',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
-          ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/admin_pages/SocialMedia/live_message.dart';
 import 'package:keralatour/admin_pages/SocialMedia/user_messages.dart';
+import 'package:keralatour/admin_pages/chart.dart';
+import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportsPage extends StatelessWidget {
   const ReportsPage({super.key});
@@ -10,6 +13,15 @@ class ReportsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reports'),
+        backgroundColor: Colors.teal,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              _showLogoutDialog(context); // Show logout confirmation dialog
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -20,6 +32,12 @@ class ReportsPage extends StatelessWidget {
               icon: Icons.bar_chart,
               title: 'Demographic Report',
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TouristDetailScreen(),
+                  ),
+                );
                 // Navigate to Demographic Report
               },
             ),
@@ -89,6 +107,36 @@ class ReportsPage extends StatelessWidget {
   }
 }
 
+void _showLogoutDialog(BuildContext context) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Confirm Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () async {
+              final _sharedPrefs = await SharedPreferences.getInstance();
+              await _sharedPrefs.clear();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (route) => false); // Close the dialog
+            },
+            child: const Text("Logout"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class ReportCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -112,7 +160,7 @@ class ReportCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 50, color: Colors.blue),
+            Icon(icon, size: 50, color: Colors.teal),
             const SizedBox(height: 10),
             Text(
               title,

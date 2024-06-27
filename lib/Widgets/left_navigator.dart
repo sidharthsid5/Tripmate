@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/profile.dart';
+import 'package:keralatour/Controller/user_controller.dart';
+import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
+import 'package:keralatour/User_pages/Auth_Pages/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

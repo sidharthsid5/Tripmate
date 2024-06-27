@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:keralatour/admin_pages/admin_home.dart';
-import 'package:keralatour/admin_pages/chart.dart';
+import 'package:keralatour/Admin_pages/admin_home.dart';
+import 'package:keralatour/Admin_pages/Graph/chart.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/user_pages/HomePages/home.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
-import 'package:keralatour/user_pages/HomePages/places.dart';
-import 'package:keralatour/user_pages/Schedule/schedule.dart';
-import 'package:keralatour/user_pages/Schedule/schedule_history.dart';
-import 'package:keralatour/admin_pages/SocialMedia/live_message.dart';
-import 'package:keralatour/admin_pages/SocialMedia/user_messages.dart';
-import 'package:keralatour/widgets/custom_alerts.dart';
+import 'package:keralatour/User_pages/HomePages/home.dart';
+import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
+import 'package:keralatour/User_pages/HomePages/Places/places.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/schedule_history.dart';
+import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
+import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
+import 'package:keralatour/Widgets/custom_alerts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {

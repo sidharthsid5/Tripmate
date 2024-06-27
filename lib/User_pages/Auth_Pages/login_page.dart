@@ -1,11 +1,11 @@
 import 'package:provider/provider.dart';
-import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/forgot_password_page.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/register_page.dart';
-import 'package:keralatour/widgets/button_widget.dart';
+import 'package:keralatour/Controller/user_controller.dart';
+import 'package:keralatour/User_pages/Auth_Pages/forgot_password_page.dart';
+import 'package:keralatour/User_pages/Auth_Pages/register_page.dart';
+import 'package:keralatour/Widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:keralatour/pallete.dart';
+import 'package:keralatour/Widgets/pallete.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

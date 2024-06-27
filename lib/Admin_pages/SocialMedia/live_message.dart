@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:keralatour/controller/user_controller.dart'; // Update the path if necessary
+import 'package:keralatour/Controller/user_controller.dart'; // Update the path if necessary
 
 class LiveMessage extends StatefulWidget {
   const LiveMessage({Key? key}) : super(key: key);

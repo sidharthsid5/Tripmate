@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/user_pages/Schedule/schedule.dart';
-import 'package:keralatour/pallete.dart';
+import 'package:keralatour/Controller/user_controller.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
+import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleHistory extends StatefulWidget {
@@ -24,10 +24,10 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Schedule History'),
-        backgroundColor: Colors.white10, // Customize the app bar color here
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Schedule History'),
+      //   backgroundColor: Colors.white10, // Customize the app bar color here
+      // ),
       body: Container(
         color: Colors.white, // Set your desired background color here
         child: FutureBuilder<List<TourScheduleList>>(

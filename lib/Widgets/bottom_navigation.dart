@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/user_pages/HomePages/home.dart';
-import 'package:keralatour/pallete.dart';
+import 'package:keralatour/User_pages/HomePages/home.dart';
+import 'package:keralatour/Widgets/pallete.dart';
 
 class TourBottomNavigator extends StatelessWidget {
   const TourBottomNavigator({super.key});

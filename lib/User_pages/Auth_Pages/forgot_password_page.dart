@@ -1,5 +1,5 @@
-import 'package:keralatour/pallete.dart';
-import 'package:keralatour/widgets/button_widget.dart';
+import 'package:keralatour/Widgets/pallete.dart';
+import 'package:keralatour/Widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -221,19 +221,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 color: Color(0xffADA4A5),
               ),
               focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Pallete.green,
-                width: 2,
+                borderSide: const BorderSide(
+                  color: Pallete.green,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            enabledBorder:OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Pallete.borderColor,
-                width: 2,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Pallete.borderColor,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              borderRadius: BorderRadius.circular(10),
-            ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(
                 top: size.height * 0.02,

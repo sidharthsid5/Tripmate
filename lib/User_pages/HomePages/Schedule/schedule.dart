@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:keralatour/controller/user_controller.dart';
+import 'package:keralatour/Controller/user_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

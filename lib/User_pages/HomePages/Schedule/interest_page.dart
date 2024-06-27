@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
-import 'package:keralatour/controller/user_controller.dart';
-import 'package:keralatour/user_pages/Schedule/schedule_history.dart';
-import 'package:keralatour/pallete.dart';
+import 'package:keralatour/Controller/user_controller.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/schedule_history.dart';
+import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';
 
 class PopupContent extends StatefulWidget {

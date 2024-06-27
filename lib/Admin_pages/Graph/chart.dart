@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/controller/user_controller.dart'; // Adjust this import based on your actual file structure
+import 'package:keralatour/Controller/user_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -45,7 +45,7 @@ class _TouristDetailScreenState extends State<TouristDetailScreen> {
                         (TouristDetail detail) => detail.country);
 
                     // Calculating total count of users
-                    int totalCount = snapshot.data!.length;
+                    // int totalCount = snapshot.data!.length;
 
                     // Calculating count of males and females
                     int maleCount = snapshot.data!

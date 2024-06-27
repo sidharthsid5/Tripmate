@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/admin_pages/SocialMedia/live_message.dart';
-import 'package:keralatour/admin_pages/SocialMedia/user_messages.dart';
-import 'package:keralatour/admin_pages/chart.dart';
-import 'package:keralatour/user_pages/Auth%20Pages/login_page.dart';
+import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
+import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
+import 'package:keralatour/Admin_pages/Graph/chart.dart';
+import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportsPage extends StatelessWidget {

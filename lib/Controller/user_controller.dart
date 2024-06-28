@@ -128,13 +128,14 @@ class UserProvider extends ChangeNotifier {
     required String location,
     required String days,
     required List<String> interests,
+    required int userId,
   }) async {
     try {
       iscreateUserSchedule = true;
       notifyListeners();
 
       final response = await http.post(
-        Uri.parse(baseUrl + "createSchedule"),
+        Uri.parse(baseUrl + "createSchedule/$userId"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -188,11 +189,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool isUserScheduleHistory = false;
-  Future<List<TourScheduleList>> getTourSchedulesHistory() async {
+  Future<List<TourScheduleList>> getTourSchedulesHistory(int userId) async {
     isUserScheduleHistory = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse(baseUrl + "scheduleHistory"));
+    final response =
+        await http.get(Uri.parse(baseUrl + "scheduleHistory/$userId"));
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.map((e) => TourScheduleList.fromJson(e)).toList();

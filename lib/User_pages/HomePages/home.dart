@@ -4,9 +4,7 @@ import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Location/live_loc.dart';
 import 'package:keralatour/User_pages/HomePages/Location/map_pscreen.dart';
 import 'package:keralatour/User_pages/HomePages/Places/places.dart';
-import 'package:keralatour/User_pages/HomePages/Schedule/interest_page.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule_history.dart';
-import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreeenPage extends StatefulWidget {
@@ -22,7 +20,7 @@ class HomeScreeenPage extends StatefulWidget {
 
 class _HomeScreeenPageState extends State<HomeScreeenPage> {
   late List<Widget> _pages;
-
+  // bool addSchedule = false;
   @override
   void initState() {
     super.initState();
@@ -48,20 +46,21 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
     ];
   }
 
+  // void _addSchedule(int userId) {
+  //   setState(() {
+  //     addSchedule = true;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NaviBar(userId: widget.userId),
+      drawer: NaviBar(userId: widget.userId), // Use NaviBar with userId
       backgroundColor: Colors.grey[200],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _addSchedule();
-        },
-        foregroundColor: Pallete.green,
-        backgroundColor: Pallete.whiteColor,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.schedule_send),
-      ),
+      // floatingActionButton: CustomFloatingActionButton(
+      //   userId: widget.userId,
+      //   onAddSchedule: _addSchedule,
+      // ),
       body: SafeArea(
         child: ValueListenableBuilder(
           valueListenable: HomeScreeenPage.selectedIndexNotifier,
@@ -69,57 +68,6 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
             return _pages[updatedIndex];
           },
         ),
-      ),
-    );
-  }
-
-  // void _showLogoutDialog(BuildContext context) async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text("Confirm Logout"),
-  //         content: const Text("Are you sure you want to log out?"),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text("Cancel"),
-  //           ),
-  //           TextButton(
-  //             onPressed: () async {
-  //               final _sharedPrefs = await SharedPreferences.getInstance();
-  //               await _sharedPrefs.clear();
-  //               Navigator.of(context).pushAndRemoveUntil(
-  //                   MaterialPageRoute(builder: (context) => const LoginPage()),
-  //                   (route) => false);
-  //             },
-  //             child: const Text("Logout"),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  bool addSchedule = false;
-
-  void _addSchedule() {
-    setState(() {
-      addSchedule = true;
-    });
-
-    _schedulePopup();
-  }
-
-  void _schedulePopup() {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) {
-          return PopupContent(userId: widget.userId);
-        },
       ),
     );
   }

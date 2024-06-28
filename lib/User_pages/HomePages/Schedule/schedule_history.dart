@@ -3,6 +3,7 @@ import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
+import 'package:keralatour/Widgets/floating_action.dart';
 import 'package:keralatour/Widgets/left_navigator.dart';
 import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';
@@ -19,16 +20,23 @@ class ScheduleHistory extends StatefulWidget {
 class _ScheduleHistoryState extends State<ScheduleHistory> {
   late Future<List<TourScheduleList>> futurescheduleHistory;
   int _currentIndex = 0;
+  bool addSchedule = false;
   @override
   void initState() {
     super.initState();
     futurescheduleHistory = Provider.of<UserProvider>(context, listen: false)
-        .getTourSchedulesHistory(); // Pass userId to fetch data
+        .getTourSchedulesHistory(widget.userId); // Pass userId to fetch data
   }
 
   void _onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+    });
+  }
+
+  void _addSchedule(int userId) {
+    setState(() {
+      addSchedule = true;
     });
   }
 
@@ -40,6 +48,10 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
       bottomNavigationBar: TourBottomNavigator(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        userId: widget.userId,
+        onAddSchedule: _addSchedule,
       ),
       body: Container(
         color: Colors.white12,

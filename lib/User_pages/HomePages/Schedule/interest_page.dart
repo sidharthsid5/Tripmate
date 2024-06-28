@@ -93,6 +93,7 @@ class _PopupContentState extends State<PopupContent>
       location: selectedLocation!,
       days: selectedDays!,
       interests: tags,
+      userId: widget.userId,
     );
 
     Future.delayed(const Duration(seconds: 4), () {

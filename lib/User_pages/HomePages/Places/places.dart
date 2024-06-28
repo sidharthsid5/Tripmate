@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Places/place_details.dart';
+import 'package:keralatour/Widgets/bottom_navigation.dart';
+import 'package:keralatour/Widgets/custon_appbar.dart';
+import 'package:keralatour/Widgets/left_navigator.dart';
 import 'package:provider/provider.dart';
 
 class TouristPlacesScreen extends StatefulWidget {
-  const TouristPlacesScreen({Key? key}) : super(key: key);
+  final int userId;
+  const TouristPlacesScreen({Key? key, required this.userId}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -13,7 +17,7 @@ class TouristPlacesScreen extends StatefulWidget {
 
 class _HomePageState extends State<TouristPlacesScreen> {
   late Future<List<TouristLocation>> futureTouristLocation;
-
+  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -21,9 +25,21 @@ class _HomePageState extends State<TouristPlacesScreen> {
         .fetchTouristLocation();
   }
 
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(title: 'Tourism'),
+      drawer: NaviBar(userId: widget.userId),
+      bottomNavigationBar: TourBottomNavigator(
+        currentIndex: _currentIndex,
+        onTap: _onTabTapped,
+      ),
       backgroundColor: Colors.white12,
       body: SingleChildScrollView(
         child: Column(

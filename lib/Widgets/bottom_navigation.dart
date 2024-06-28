@@ -3,7 +3,10 @@ import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:keralatour/Widgets/pallete.dart';
 
 class TourBottomNavigator extends StatelessWidget {
-  const TourBottomNavigator({super.key});
+  final int currentIndex;
+  final Function(int) onTap;
+  const TourBottomNavigator(
+      {super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +15,7 @@ class TourBottomNavigator extends StatelessWidget {
       builder: (BuildContext ctx, int updatedindex, _) {
         return BottomNavigationBar(
           currentIndex: updatedindex,
+          backgroundColor: Colors.white,
           selectedItemColor: Pallete.green,
           unselectedItemColor: Colors.grey,
           onTap: (newIndex) {
@@ -20,11 +24,10 @@ class TourBottomNavigator extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.location_pin), label: 'Location'),
+                icon: Icon(Icons.location_on_outlined), label: 'Location'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.schedule_outlined), label: 'Schedule'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.language_sharp), label: 'Map'),
+                icon: Icon(Icons.my_library_books_outlined), label: 'Schedule'),
+            BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
           ],
         );
       },

@@ -6,7 +6,9 @@ import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';
 
 class PopupContent extends StatefulWidget {
-  const PopupContent({Key? key}) : super(key: key);
+  final int userId;
+
+  const PopupContent({Key? key, required this.userId}) : super(key: key);
 
   @override
   _PopupContentState createState() => _PopupContentState();
@@ -141,14 +143,16 @@ class _PopupContentState extends State<PopupContent>
                 ),
                 icon: const Icon(
                   Icons.arrow_circle_right,
-                  color: Colors.green, // Change icon color here
+                  color: Colors.green,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close dialog
+                  Navigator.of(context).pop();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ScheduleHistory(),
+                      builder: (context) => ScheduleHistory(
+                        userId: widget.userId,
+                      ),
                     ),
                   );
                 },
@@ -165,10 +169,9 @@ class _PopupContentState extends State<PopupContent>
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.7),
-      // Adjust the background color and opacity
       body: Center(
         child: Container(
-          width: screenSize.width * 0.9, // Set 80% of the screen width
+          width: screenSize.width * 0.9,
           height: screenSize.height * 0.7,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

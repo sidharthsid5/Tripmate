@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:keralatour/Widgets/bottom_navigation.dart';
+import 'package:keralatour/Widgets/custon_appbar.dart';
+import 'package:keralatour/Widgets/left_navigator.dart';
+// Import the BottomNavigator widget
 
 class LocationPage extends StatefulWidget {
-  const LocationPage({Key? key}) : super(key: key);
+  final int userId;
+  const LocationPage({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<LocationPage> createState() => _LocationPageState();
@@ -16,6 +21,7 @@ class _LocationPageState extends State<LocationPage> {
   Position? _currentPosition;
   Timer? _locationTimer;
   String? user = "user1";
+  int _currentIndex = 0;
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -51,10 +57,8 @@ class _LocationPageState extends State<LocationPage> {
 
     if (!hasPermission) return;
 
-    // Force a location update by disabling and enabling location services
     await Geolocator.isLocationServiceEnabled().then((bool isEnabled) async {
       if (isEnabled) {
-        // Enable location services
         await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
         ).then((Position position) {
@@ -65,13 +69,10 @@ class _LocationPageState extends State<LocationPage> {
           debugPrint(e);
         });
       } else {
-        // Location services are disabled, prompt the user to enable them
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
               'Location services are disabled. Please enable the services'),
         ));
-        // You can open the device settings to allow the user to enable location services
-        // Alternatively, you can use Geolocator.openAppSettings();
       }
     });
   }
@@ -92,7 +93,6 @@ class _LocationPageState extends State<LocationPage> {
 
   Future<void> _sendLocationToServer(
       Position position, String? address, String? user) async {
-    //String baseUrl = "http://10.11.2.184:3000/";
     String baseUrl = "http://10.11.2.236:4000/";
     final response = await http.post(
       Uri.parse(baseUrl + "location"),
@@ -112,14 +112,12 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   void _startLocationUpdates() {
-    // Start the timer to get location updates every 10 seconds
     _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       _getCurrentPosition();
     });
   }
 
   void _stopLocationUpdates() {
-    // Stop the location updates when the "Stop" button is pressed
     if (_locationTimer != null) {
       _locationTimer!.cancel();
       _locationTimer = null;
@@ -127,37 +125,50 @@ class _LocationPageState extends State<LocationPage> {
     }
   }
 
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   void dispose() {
-    // Cancel the timer when the widget is disposed
     _locationTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Latitude: ${_currentPosition?.latitude ?? ""}'),
-            const SizedBox(height: 15),
-            Text('Longitude: ${_currentPosition?.longitude ?? ""}'),
-            const SizedBox(height: 15),
-            Text('Address: ${_currentAddress ?? ""}'),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _startLocationUpdates,
-              child: const Text("Get Current Location"),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _stopLocationUpdates,
-              child: const Text("Stop Updation"),
-            ),
-          ],
+    return Scaffold(
+      drawer: NaviBar(userId: widget.userId),
+      appBar: const CustomAppBar(title: 'Tourism'),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Latitude: ${_currentPosition?.latitude ?? ""}'),
+              const SizedBox(height: 15),
+              Text('Longitude: ${_currentPosition?.longitude ?? ""}'),
+              const SizedBox(height: 15),
+              Text('Address: ${_currentAddress ?? ""}'),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _startLocationUpdates,
+                child: const Text("Get Current Location"),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _stopLocationUpdates,
+                child: const Text("Stop Updation"),
+              ),
+            ],
+          ),
         ),
+      ),
+      bottomNavigationBar: TourBottomNavigator(
+        currentIndex: _currentIndex,
+        onTap: _onTabTapped,
       ),
     );
   }

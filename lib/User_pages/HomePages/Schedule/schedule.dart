@@ -247,12 +247,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Confirm',
                                     style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -261,7 +261,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                           Colors.green),
                                 ),
                               ),
@@ -274,12 +274,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Remove',
                                     style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -288,7 +288,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                           Colors.red),
                                 ),
                               ),
@@ -298,12 +298,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Back',
                                     style: TextStyle(color: Colors.black)),
                                 style: ButtonStyle(
-                                  padding: MaterialStateProperty.all<
+                                  padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: MaterialStateProperty.all<
+                                  shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -312,7 +312,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                           Colors.white),
                                 ),
                               ),

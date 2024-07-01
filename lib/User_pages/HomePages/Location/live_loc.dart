@@ -140,6 +140,7 @@ class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       drawer: NaviBar(userId: widget.userId),
       appBar: const CustomAppBar(title: 'Tourism'),
       body: SafeArea(

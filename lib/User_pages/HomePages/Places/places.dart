@@ -40,7 +40,7 @@ class _HomePageState extends State<TouristPlacesScreen> {
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
       ),
-      backgroundColor: Colors.white12,
+      backgroundColor: Colors.white10,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

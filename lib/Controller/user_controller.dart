@@ -99,7 +99,9 @@ class UserProvider extends ChangeNotifier {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const ReportsPage(),
+              builder: (context) => ReportsPage(
+                userId: userId,
+              ),
             ),
           );
         } else {

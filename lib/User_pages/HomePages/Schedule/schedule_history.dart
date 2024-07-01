@@ -43,6 +43,7 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: const CustomAppBar(title: 'Tourism'),
       drawer: NaviBar(userId: widget.userId),
       bottomNavigationBar: TourBottomNavigator(
@@ -54,7 +55,7 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
         onAddSchedule: _addSchedule,
       ),
       body: Container(
-        color: Colors.white12,
+        color: Colors.white10,
         child: FutureBuilder<List<TourScheduleList>>(
           future: futurescheduleHistory,
           builder: (context, AsyncSnapshot<List<TourScheduleList>> snapshot) {
@@ -84,18 +85,20 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         leading: const Icon(Icons.location_on),
-                        title: Text('Trip: ${scheduleHistory.tourId}'),
+                        title: Text(
+                          'Trip: ${scheduleHistory.tourId}',
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Location: ${scheduleHistory.location.toString()}',
+                              'From: ${scheduleHistory.location.toString()}',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              'Day: ${scheduleHistory.day.toString()}',
+                              'Total Days: ${scheduleHistory.day.toString()}',
                               style: const TextStyle(
                                 fontStyle: FontStyle.italic,
                               ),
@@ -131,12 +134,16 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
 class TourScheduleList {
   final int day;
   final int tourId;
-  final int location;
+  final int locationId;
+  final String location;
+  final String date;
 
   TourScheduleList({
     required this.day,
     required this.tourId,
+    required this.locationId,
     required this.location,
+    required this.date,
   });
 
   factory TourScheduleList.fromJson(Map<String, dynamic>? json) {
@@ -146,8 +153,10 @@ class TourScheduleList {
 
     return TourScheduleList(
       day: json['DayNumber'] ?? 0,
-      location: json['LocationID'] ?? 0,
-      tourId: json['TourId'] ?? 0,
+      locationId: json['LocationID'] ?? 0,
+      tourId: json['TourID'] ?? 0,
+      location: json['DistrictName'] ?? 'Unknown',
+      date: json['Date'] ?? 'Date',
     );
   }
 }

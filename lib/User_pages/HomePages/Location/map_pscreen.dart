@@ -25,6 +25,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white10,
       appBar: const CustomAppBar(title: 'Tourism'),
       drawer: NaviBar(userId: widget.userId), // Add the drawer here
       body: SingleChildScrollView(

@@ -3,10 +3,12 @@ import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
 import 'package:keralatour/Admin_pages/Graph/chart.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
+import 'package:keralatour/Widgets/left_navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportsPage extends StatelessWidget {
-  const ReportsPage({super.key});
+  final int userId;
+  const ReportsPage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class ReportsPage extends StatelessWidget {
           ),
         ],
       ),
+      drawer: NaviBar(userId: userId),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(

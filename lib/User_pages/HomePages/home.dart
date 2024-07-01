@@ -56,7 +56,7 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NaviBar(userId: widget.userId), // Use NaviBar with userId
-      backgroundColor: Colors.grey[200],
+      backgroundColor: const Color.fromARGB(255, 231, 231, 231),
       // floatingActionButton: CustomFloatingActionButton(
       //   userId: widget.userId,
       //   onAddSchedule: _addSchedule,

@@ -23,8 +23,8 @@ class TourBottomNavigator extends StatelessWidget {
           },
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_on_outlined), label: 'Location'),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.location_on_outlined), label: 'Location'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.my_library_books_outlined), label: 'Schedule'),
             BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),

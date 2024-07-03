@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/User_pages/HomePages/Location/live_loc.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/Controller/user_controller.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class TourScheduleScreen extends StatefulWidget {
   final int tourId;
-
-  const TourScheduleScreen({super.key, required this.tourId});
+  final int userId;
+  const TourScheduleScreen(
+      {Key? key, required this.tourId, required this.userId})
+      : super(key: key);
 
   @override
   _TourScheduleScreenState createState() => _TourScheduleScreenState();
@@ -24,27 +25,24 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
         .getTourSchedules(widget.tourId);
   }
 
-  Future<void> editTourSchedule(int id) async {
-    final url = Uri.parse('http://10.11.2.236:4000/tourschedules/$id');
+  Future<void> _deleteSchedule(int scheduleId) async {
     try {
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
-        TourSchedule tourSchedule = TourSchedule.fromJson(jsonResponse);
-        // Handle the fetched tour schedule details as needed
-        print('Fetched tour schedule: ${tourSchedule.location}');
-        // Reload tour schedules data
-        setState(() {
-          futureTourSchedules =
-              Provider.of<UserProvider>(context, listen: false)
-                  .getTourSchedules(widget.tourId);
-          _currentStep = 0; // Reset the current step to the first step
+      await Provider.of<UserProvider>(context, listen: false)
+          .deleteTourSchedule(scheduleId);
+      setState(() {
+        futureTourSchedules = Provider.of<UserProvider>(context, listen: false)
+            .getTourSchedules(widget.tourId);
+        // Adjust current step if it exceeds the new number of steps
+        futureTourSchedules.then((schedules) {
+          if (_currentStep >= schedules.length) {
+            _currentStep = schedules.length - 1;
+          }
         });
-      } else {
-        print('Error fetching tour schedule: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error fetching tour schedule: $error');
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
@@ -223,9 +221,14 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                       child: Stepper(
                         type: StepperType.vertical,
                         currentStep: _currentStep,
+                        onStepTapped: (int step) {
+                          setState(() {
+                            _currentStep = step;
+                          });
+                        },
                         onStepContinue: () {
                           setState(() {
-                            if (_currentStep < steps.length - 1) {
+                            if (_currentStep < snapshot.data!.length - 1) {
                               _currentStep++;
                             }
                           });
@@ -247,12 +250,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                 child: const Text('Confirm',
                                     style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
-                                  padding: WidgetStateProperty.all<
+                                  padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 7),
                                   ),
-                                  shape: WidgetStateProperty.all<
+                                  shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
@@ -261,15 +264,17 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     ),
                                   ),
                                   backgroundColor:
-                                      WidgetStateProperty.all<Color>(
+                                      MaterialStateProperty.all<Color>(
                                           Colors.green),
                                 ),
                               ),
                               const SizedBox(width: 8.0),
                               ElevatedButton(
-                                onPressed: () {
-                                  int id = snapshot.data![_currentStep].id;
-                                  editTourSchedule(id);
+                                onPressed: () async {
+                                  if (_currentStep < snapshot.data!.length) {
+                                    await _deleteSchedule(snapshot
+                                        .data![_currentStep].scheduleId);
+                                  }
                                 },
                                 child: const Text('Remove',
                                     style: TextStyle(color: Colors.white)),
@@ -294,9 +299,17 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                               ),
                               const SizedBox(width: 8.0),
                               ElevatedButton(
-                                onPressed: details.onStepCancel,
-                                child: const Text('Back',
-                                    style: TextStyle(color: Colors.black)),
+                                onPressed: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LocationPage(
+                                              userId: widget.userId,
+                                            )),
+                                  );
+                                },
+                                child: const Text('Start',
+                                    style: TextStyle(color: Colors.white)),
                                 style: ButtonStyle(
                                   padding: WidgetStateProperty.all<
                                       EdgeInsetsGeometry>(
@@ -308,12 +321,12 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6.0),
                                       side:
-                                          const BorderSide(color: Colors.black),
+                                          const BorderSide(color: Colors.blue),
                                     ),
                                   ),
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
-                                          Colors.white),
+                                          Colors.blue),
                                 ),
                               ),
                             ],
@@ -334,7 +347,7 @@ class _TourScheduleScreenState extends State<TourScheduleScreen> {
 }
 
 class TourSchedule {
-  final int id;
+  final int scheduleId;
   final int duration;
   final String location;
   final double distance;
@@ -342,7 +355,7 @@ class TourSchedule {
   final String category;
 
   TourSchedule({
-    required this.id,
+    required this.scheduleId,
     required this.duration,
     required this.location,
     required this.distance,
@@ -352,7 +365,7 @@ class TourSchedule {
 
   factory TourSchedule.fromJson(Map<String, dynamic> json) {
     return TourSchedule(
-      id: json['schedule_id'] ?? 0,
+      scheduleId: json['schedule_id'] ?? 0,
       duration: json['time'] ?? 0,
       location: json['location'] ?? 'nothing',
       distance: json['distance'] != null

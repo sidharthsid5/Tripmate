@@ -2,13 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
 import 'package:keralatour/Admin_pages/Graph/chart.dart';
+import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:keralatour/Widgets/left_navigator.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ReportsPage extends StatelessWidget {
+class ReportsPage extends StatefulWidget {
   final int userId;
   const ReportsPage({super.key, required this.userId});
+
+  @override
+  State<ReportsPage> createState() => _ReportsPageState();
+}
+
+class _ReportsPageState extends State<ReportsPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<UserProvider>(context, listen: false)
+        .fetchUserDetails(widget.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +40,7 @@ class ReportsPage extends StatelessWidget {
           ),
         ],
       ),
-      drawer: NaviBar(userId: userId),
+      drawer: NaviBar(userId: widget.userId),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(

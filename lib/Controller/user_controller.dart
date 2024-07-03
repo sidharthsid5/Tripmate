@@ -314,4 +314,19 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to load user details');
     }
   }
+
+  Future<void> deleteTourSchedule(int scheduleId) async {
+    // Your logic to delete the tour schedule from the backend or database
+    // For example, making an HTTP request to delete the schedule
+    final response = await http.delete(
+      Uri.parse(baseUrl + "editSchedules/$scheduleId"),
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully deleted
+      notifyListeners(); // Notify listeners to update UI
+    } else {
+      throw Exception('Failed to delete the schedule');
+    }
+  }
 }

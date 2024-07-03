@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
@@ -111,6 +112,7 @@ class _ScheduleHistoryState extends State<ScheduleHistory> {
                             MaterialPageRoute(
                               builder: (context) => TourScheduleScreen(
                                 tourId: scheduleHistory.tourId,
+                                userId: scheduleHistory.userId,
                               ),
                             ),
                           );
@@ -137,6 +139,7 @@ class TourScheduleList {
   final int locationId;
   final String location;
   final String date;
+  final int userId;
 
   TourScheduleList({
     required this.day,
@@ -144,6 +147,7 @@ class TourScheduleList {
     required this.locationId,
     required this.location,
     required this.date,
+    required this.userId,
   });
 
   factory TourScheduleList.fromJson(Map<String, dynamic>? json) {
@@ -157,6 +161,7 @@ class TourScheduleList {
       tourId: json['TourID'] ?? 0,
       location: json['DistrictName'] ?? 'Unknown',
       date: json['Date'] ?? 'Date',
+      userId: json['UserID'] ?? 0,
     );
   }
 }

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:keralatour/Widgets/bottom_navigation.dart';
+import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
 import 'package:keralatour/Widgets/left_navigator.dart';
-// Import the BottomNavigator widget
+import 'package:provider/provider.dart';
 
 class LocationPage extends StatefulWidget {
   final int userId;
@@ -21,7 +21,6 @@ class _LocationPageState extends State<LocationPage> {
   Position? _currentPosition;
   Timer? _locationTimer;
   String? user = "user1";
-  int _currentIndex = 0;
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -105,9 +104,9 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     if (response.statusCode == 200) {
-      print('Location sent successfully');
+      // print('Location sent successfully');
     } else {
-      print('Failed to send location. Status code: ${response.statusCode}');
+      // print('Failed to send location. Status code: ${response.statusCode}');
     }
   }
 
@@ -121,15 +120,13 @@ class _LocationPageState extends State<LocationPage> {
     if (_locationTimer != null) {
       _locationTimer!.cancel();
       _locationTimer = null;
-      print("stop");
+      // print("stop");
     }
   }
 
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
+  // void _onTabTapped(int index) {
+  //   setState(() {});
+  // }
 
   @override
   void dispose() {
@@ -138,9 +135,16 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false)
+        .fetchUserDetails(widget.userId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.white,
       drawer: NaviBar(userId: widget.userId),
       appBar: const CustomAppBar(title: 'Tourism'),
       body: SafeArea(
@@ -167,10 +171,10 @@ class _LocationPageState extends State<LocationPage> {
           ),
         ),
       ),
-      bottomNavigationBar: TourBottomNavigator(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-      ),
+      // bottomNavigationBar: TourBottomNavigator(
+      //   currentIndex: _currentIndex,
+      //   onTap: _onTabTapped,
+      // ),
     );
   }
 }

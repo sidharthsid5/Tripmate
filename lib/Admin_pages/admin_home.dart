@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/Admin_pages/Graph/home_chart.dart';
+import 'package:keralatour/Admin_pages/Graph/user_behaviour.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
-import 'package:keralatour/Admin_pages/Graph/chart.dart';
+import 'package:keralatour/Admin_pages/Graph/all_in_one_chart.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:keralatour/Widgets/left_navigator.dart';
@@ -63,7 +65,12 @@ class _ReportsPageState extends State<ReportsPage> {
               icon: Icons.people,
               title: 'User Behavior Report',
               onTap: () {
-                // Navigate to User Behavior Report
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserBehaviour(),
+                  ),
+                );
               },
             ),
             ReportCard(
@@ -80,18 +87,18 @@ class _ReportsPageState extends State<ReportsPage> {
                 // Navigate to Demand Prediction Report
               },
             ),
-            ReportCard(
-              icon: Icons.feedback,
-              title: 'User Feedback Report',
-              onTap: () {
-                // Navigate to User Feedback Report
-              },
-            ),
-            ReportCard(
-              icon: Icons.attach_money,
-              title: 'Revenue and Financial Report',
-              onTap: () {},
-            ),
+            // ReportCard(
+            //   icon: Icons.feedback,
+            //   title: 'User Feedback Report',
+            //   onTap: () {
+            //     // Navigate to User Feedback Report
+            //   },
+            // ),
+            // ReportCard(
+            //   icon: Icons.attach_money,
+            //   title: 'Revenue and Financial Report',
+            //   onTap: () {},
+            // ),
             ReportCard(
               icon: Icons.spatial_tracking,
               title: 'Live Message Tracking',

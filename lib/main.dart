@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/User_pages/HomePages/dashboard.dart';
 import 'package:keralatour/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/Controller/user_controller.dart';

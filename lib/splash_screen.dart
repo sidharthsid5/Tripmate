@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/Admin_pages/admin_home.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (ctx1) => const HomeScreeenPage(
+            builder: (ctx1) => const ReportsPage(
                   userId: 1,
                 )),
       );

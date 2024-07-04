@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:keralatour/Admin_pages/Graph/home_chart.dart';
 import 'package:keralatour/Admin_pages/admin_home.dart';
-import 'package:keralatour/Admin_pages/Graph/chart.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';

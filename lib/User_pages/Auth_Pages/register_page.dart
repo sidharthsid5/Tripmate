@@ -272,6 +272,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ["Male", "Female", "Other"],
                         _sexKey,
                         5,
+                        _sexController,
                         isDarkMode,
                       ),
                       buildTextField(
@@ -303,6 +304,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         countries,
                         _countryKey,
                         7,
+                        _countryController,
                         isDarkMode,
                       ),
                       buildYearPickerField(
@@ -611,6 +613,7 @@ class _RegisterPageState extends State<RegisterPage> {
     List<String> options,
     Key key,
     int stringToEdit,
+    TextEditingController controller,
     bool isDarkMode,
   ) {
     return Padding(

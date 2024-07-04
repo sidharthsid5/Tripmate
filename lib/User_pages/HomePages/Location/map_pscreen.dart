@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
 
-import '../../../Widgets/left_navigator.dart'; // Make sure to import the correct path
+import 'package:keralatour/Widgets/left_navigator.dart';
 
 class MapPage extends StatefulWidget {
   final int userId;

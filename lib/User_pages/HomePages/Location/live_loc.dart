@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
-import 'package:keralatour/Widgets/left_navigator.dart';
+import 'package:keralatour/Widgets/side_navigator.dart';
 import 'package:provider/provider.dart';
 
 class LocationPage extends StatefulWidget {

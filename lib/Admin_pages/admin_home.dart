@@ -6,7 +6,7 @@ import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
 import 'package:keralatour/Admin_pages/Graph/all_in_one_chart.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
-import 'package:keralatour/Widgets/left_navigator.dart';
+import 'package:keralatour/Widgets/side_navigator.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

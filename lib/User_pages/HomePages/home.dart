@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/Widgets/left_navigator.dart';
+import 'package:keralatour/Widgets/side_navigator.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Location/map_pscreen.dart';
 import 'package:keralatour/User_pages/HomePages/Places/places.dart';
@@ -44,12 +44,6 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
       ),
     ];
   }
-
-  // void _addSchedule(int userId) {
-  //   setState(() {
-  //     addSchedule = true;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Places/place_details.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
-import 'package:keralatour/Widgets/left_navigator.dart';
+import 'package:keralatour/Widgets/side_navigator.dart';
 import 'package:provider/provider.dart';
 
 class TouristPlacesScreen extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:keralatour/User_pages/Auth_Pages/profile.dart';
+import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,6 +51,18 @@ class NaviBar extends StatelessWidget {
                   ),
                 );
               }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const HomeScreeenPage(
+                          userId: 1,
+                        )),
+              );
             },
           ),
           ListTile(

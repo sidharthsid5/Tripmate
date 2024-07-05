@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (ctx1) => const ReportsPage(
+            builder: (ctx1) => const HomeScreeenPage(
                   userId: 1,
                 )),
       );

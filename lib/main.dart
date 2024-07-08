@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keralatour/Admin_pages/User/user_list.dart';
-import 'package:keralatour/User_pages/HomePages/dashboard.dart';
+import 'package:keralatour/User_pages/HomePages/Location/live_loc.dart';
 import 'package:keralatour/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:keralatour/Controller/user_controller.dart';
@@ -34,7 +34,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       title: 'Tourism Guide',
       // home: ScheduleHistory(),
-      home: AdminUserListPage(),
+      home: SplashScreen(),
       //home: TravelSummaryScreen(),
     );
   }

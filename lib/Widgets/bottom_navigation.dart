@@ -22,12 +22,16 @@ class TourBottomNavigator extends StatelessWidget {
             HomeScreeenPage.selectedIndexNotifier.value = newIndex;
           },
           items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard_rounded), label: 'Dashboard'),
             BottomNavigationBarItem(icon: Icon(Icons.place), label: 'Places'),
             // BottomNavigationBarItem(
-            //     icon: Icon(Icons.location_on_outlined), label: 'Location'),
+            //     icon: Icon(Icons.my_library_books_outlined),
+            //     label: 'New Schedule'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.my_library_books_outlined), label: 'Schedule'),
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.map_outlined), label: 'Map'),
           ],
         );
       },

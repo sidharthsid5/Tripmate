@@ -104,9 +104,9 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     if (response.statusCode == 200) {
-      // print('Location sent successfully');
+      print('Location sent successfully');
     } else {
-      // print('Failed to send location. Status code: ${response.statusCode}');
+      print('Failed to send location. Status code: ${response.statusCode}');
     }
   }
 
@@ -120,7 +120,7 @@ class _LocationPageState extends State<LocationPage> {
     if (_locationTimer != null) {
       _locationTimer!.cancel();
       _locationTimer = null;
-      // print("stop");
+      print("stop");
     }
   }
 

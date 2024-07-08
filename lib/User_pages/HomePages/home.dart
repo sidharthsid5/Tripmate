@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/new_schedule.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/previous_schedule.dart';
+import 'package:keralatour/User_pages/HomePages/user_dashboard.dart';
 import 'package:keralatour/Widgets/side_navigator.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/HomePages/Location/map_pscreen.dart';
@@ -30,12 +33,12 @@ class _HomeScreeenPageState extends State<HomeScreeenPage> {
 
   void _initializePages() {
     _pages = [
+      DashboardScreen(
+        userId: widget.userId,
+      ),
       TouristPlacesScreen(
         userId: widget.userId,
       ),
-      // LocationPage(
-      //   userId: widget.userId,
-      // ),
       ScheduleHistory(
         userId: widget.userId,
       ),

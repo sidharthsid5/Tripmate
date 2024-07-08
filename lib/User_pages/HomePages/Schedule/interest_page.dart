@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:keralatour/Controller/user_controller.dart';
+import 'package:keralatour/User_pages/HomePages/Schedule/new_schedule.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule_history.dart';
 import 'package:keralatour/Widgets/pallete.dart';
 import 'package:provider/provider.dart';

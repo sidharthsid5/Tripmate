@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class UserBehaviour extends StatelessWidget {
-  const UserBehaviour({super.key});
+  const UserBehaviour(
+      {super.key, required String title, required String content});
 
   @override
   Widget build(BuildContext context) {

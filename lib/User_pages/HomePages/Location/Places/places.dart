@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:keralatour/Controller/user_controller.dart';
-import 'package:keralatour/User_pages/HomePages/Places/place_details.dart';
+import 'package:keralatour/User_pages/HomePages/Location/Places/place_details.dart';
 import 'package:keralatour/Widgets/bottom_navigation.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
 import 'package:keralatour/Widgets/side_navigator.dart';

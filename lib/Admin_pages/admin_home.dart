@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:keralatour/Admin_pages/Graph/home_chart.dart';
 import 'package:keralatour/Admin_pages/Graph/user_behaviour.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
-import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
-import 'package:keralatour/Admin_pages/Graph/all_in_one_chart.dart';
+import 'package:keralatour/Admin_pages/User/admin_dash.dart';
 import 'package:keralatour/Controller/user_controller.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
 import 'package:keralatour/Widgets/side_navigator.dart';
@@ -68,7 +67,10 @@ class _ReportsPageState extends State<ReportsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const UserBehaviour(),
+                    builder: (context) => const UserBehaviour(
+                      title: '',
+                      content: '',
+                    ),
                   ),
                 );
               },
@@ -77,6 +79,13 @@ class _ReportsPageState extends State<ReportsPage> {
               icon: Icons.trending_up,
               title: 'Trend Analysis Report',
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DashboardScreen(userId: widget.userId),
+                  ),
+                );
                 // Navigate to Trend Analysis Report
               },
             ),
@@ -84,6 +93,13 @@ class _ReportsPageState extends State<ReportsPage> {
               icon: Icons.insights,
               title: 'Demand Prediction Report',
               onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DashboardScreen(userId: widget.userId),
+                  ),
+                );
                 // Navigate to Demand Prediction Report
               },
             ),
@@ -106,7 +122,10 @@ class _ReportsPageState extends State<ReportsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LiveMessage(),
+                    builder: (context) => const LiveMessage(
+                      title: '',
+                      content: '',
+                    ),
                   ),
                 );
                 // Navigate to Revenue and Financial Report
@@ -119,7 +138,10 @@ class _ReportsPageState extends State<ReportsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const UserMessages(),
+                    builder: (context) => const LiveMessage(
+                      title: '',
+                      content: '',
+                    ),
                   ),
                 );
                 // Navigate to Revenue and Financial Report

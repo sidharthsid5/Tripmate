@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:keralatour/Admin_pages/Graph/home_chart.dart';
+import 'package:keralatour/Admin_pages/User/admin_dash.dart';
 import 'package:keralatour/Admin_pages/User/user_list.dart';
-import 'package:keralatour/Admin_pages/admin_home.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/getdata_schedule.dart';
 import 'package:keralatour/main.dart';
 import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
-import 'package:keralatour/User_pages/HomePages/Places/places.dart';
+import 'package:keralatour/User_pages/HomePages/Location/Places/places.dart';
 import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
 import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
@@ -100,7 +100,7 @@ class UserProvider extends ChangeNotifier {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => ReportsPage(
+              builder: (context) => DashboardScreen(
                 userId: userId,
               ),
             ),
@@ -344,4 +344,10 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to load Users list');
     }
   }
+
+  void deleteUser(int userId) {}
+
+  void addUser(newUser) {}
+
+  void updateUser(int userId, UserList userList) {}
 }

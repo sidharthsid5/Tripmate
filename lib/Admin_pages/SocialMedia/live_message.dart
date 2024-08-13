@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:keralatour/Controller/user_controller.dart'; // Update the path if necessary
 
 class LiveMessage extends StatefulWidget {
-  const LiveMessage({Key? key}) : super(key: key);
+  const LiveMessage({Key? key, required String title, required String content})
+      : super(key: key);
 
   @override
   State<LiveMessage> createState() => _UserMessagesState();

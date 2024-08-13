@@ -3,7 +3,8 @@ import 'package:keralatour/Controller/user_controller.dart';
 import 'package:provider/provider.dart';
 
 class UserMessages extends StatefulWidget {
-  const UserMessages({Key? key}) : super(key: key);
+  const UserMessages({Key? key, required String title, required String content})
+      : super(key: key);
 
   @override
   State<UserMessages> createState() => _ScheduleHistoryState();
@@ -100,7 +101,7 @@ class _ScheduleHistoryState extends State<UserMessages> {
                   elevation: 4,
                   child: DataTable(
                     columnSpacing: 16.0,
-                    headingRowColor: MaterialStateColor.resolveWith(
+                    headingRowColor: WidgetStateColor.resolveWith(
                         (states) => Colors.blueGrey),
                     columns: const [
                       DataColumn(
@@ -164,7 +165,7 @@ class _ScheduleHistoryState extends State<UserMessages> {
           _calculateMatchingPercentage(socialMedia.messages, keywords);
 
       return DataRow(
-        color: MaterialStateColor.resolveWith(
+        color: WidgetStateColor.resolveWith(
           (states) => index % 2 == 0 ? Colors.grey.shade200 : Colors.white,
         ),
         cells: [
@@ -176,7 +177,7 @@ class _ScheduleHistoryState extends State<UserMessages> {
           DataCell(Text(matchedHeading)),
           DataCell(Text(matchingPercentage.toStringAsFixed(2))),
           DataCell(Container(
-            constraints: BoxConstraints(maxWidth: 200),
+            constraints: const BoxConstraints(maxWidth: 200),
             child: Text(
               socialMedia.messages,
               overflow: TextOverflow.ellipsis,

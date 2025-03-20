@@ -1,23 +1,29 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:keralatour/Admin_pages/Graph/home_chart.dart';
-import 'package:keralatour/Admin_pages/User/admin_dash.dart';
-import 'package:keralatour/Admin_pages/User/user_list.dart';
-import 'package:keralatour/User_pages/HomePages/Schedule/getdata_schedule.dart';
+import 'package:keralatour/Admin_pages/Admin_dashboard/schedule_history.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/coordinates_table.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/places_tablepage.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/tourism_datapage.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Demo_statistics/Filtered_Reports/Overall_trends/home_chart.dart';
+import 'package:keralatour/Admin_pages/Admin_dashboard/admin_dash.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/SocialMedia/class_social.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/User_details/user_list.dart';
+import 'package:keralatour/User_pages/HomePages/Home_Dashboard/new_dashboard.dart';
+import 'package:keralatour/User_pages/HomePages/Old/Schedule/getdata_schedule.dart';
 import 'package:keralatour/main.dart';
-import 'package:keralatour/User_pages/HomePages/home.dart';
 import 'package:keralatour/User_pages/Auth_Pages/login_page.dart';
-import 'package:keralatour/User_pages/HomePages/Location/Places/places.dart';
-import 'package:keralatour/User_pages/HomePages/Schedule/schedule.dart';
-import 'package:keralatour/Admin_pages/SocialMedia/live_message.dart';
-import 'package:keralatour/Admin_pages/SocialMedia/user_messages.dart';
+import 'package:keralatour/User_pages/HomePages/Old/Places/places.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/SocialMedia/live_message.dart';
 import 'package:keralatour/Widgets/custom_alerts.dart';
+import 'package:keralatour/User_pages/HomePages/Home_Dashboard/View_Schedule/common_schedule.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider extends ChangeNotifier {
-  String baseUrl = "http://10.11.2.236:4000/";
+  String baseUrl = "http://10.11.3.126:4000/";
   bool isUserRegistering = false;
+  bool isUserLogining = false;
+
   Future<void> userRegistration(
       {required String email,
       required String password,
@@ -68,19 +74,101 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  bool isUserLogining = false;
+  bool isAddEvent = false;
 
-  Future<void> login(
-      {required String email,
-      required String password,
-      required BuildContext context}) async {
+  Future<void> adminAddEvent({
+    required String name,
+    required String eventPlace,
+    required String description,
+    required DateTime startDate,
+    required DateTime endDate,
+    required BuildContext context,
+  }) async {
+    Map<String, dynamic> data = {
+      'name': name,
+      'eventPlace': eventPlace,
+      'description': description,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+    };
+
+    try {
+      isAddEvent = true;
+      notifyListeners();
+
+      final response = await http.post(
+        Uri.parse(baseUrl + "addevent"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200) {
+        CustomAlert.successMessage("Event added successfully", context);
+        await fetchEvents(); // Refresh the event list
+      } else {
+        final result = jsonDecode(response.body);
+        CustomAlert.warningMessage(
+            result['message'] ?? 'An error occurred', context);
+      }
+    } catch (e) {
+      CustomAlert.errorMessage("An unexpected error occurred: $e", context);
+    } finally {
+      isAddEvent = false;
+      notifyListeners();
+    }
+  }
+
+  List<dynamic> _events = [];
+
+  List<dynamic> get events => _events;
+
+  Future<List<dynamic>> fetchEvents() async {
+    final response = await http.get(Uri.parse(baseUrl + "events"));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      _events = responseData['data'] ?? []; // Update the internal state
+      notifyListeners(); // Notify listeners of the change
+      return _events;
+    } else {
+      throw Exception('Failed to load events');
+    }
+  }
+
+  Future<void> deleteEvent(int eventId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse(baseUrl + "events/$eventId"),
+      );
+
+      if (response.statusCode == 200) {
+        _events.removeWhere(
+            (event) => event['event_id'] == eventId); // Update the list
+        notifyListeners(); // Notify listeners to rebuild UI
+      } else {
+        throw Exception('Failed to delete event');
+      }
+    } catch (e) {
+      print('Error deleting event: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> login({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
     Map<String, dynamic> data = {
       'email': email,
       'password': password,
     };
+
     try {
       isUserLogining = true;
       notifyListeners();
+
       final response = await http.post(
         Uri.parse(baseUrl + "signin"),
         headers: <String, String>{
@@ -88,30 +176,33 @@ class UserProvider extends ChangeNotifier {
         },
         body: jsonEncode(data),
       );
+
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body);
         int userId = responseData['userId'];
 
         print('User ID retrieved: $userId');
-        // GOTO Home
+
+        // Fetch user details after successful login
+        await fetchUserDetails(userId);
+
+        // Save login state
         final _sharedPrefs = await SharedPreferences.getInstance();
         await _sharedPrefs.setBool(SAVE_KEY_NAME, true);
+
+        // Navigate to the correct page
         if (email == "admin@gmail.com" && password == "Admin") {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => DashboardScreen(
-                userId: userId,
-              ),
+              builder: (context) => DashboardScreen(userId: userId),
             ),
           );
         } else {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreeenPage(
-                userId: userId,
-              ),
+              builder: (context) => TravelAppHomePage(userId: userId),
             ),
           );
         }
@@ -119,9 +210,9 @@ class UserProvider extends ChangeNotifier {
         CustomAlert.errorMessage("Invalid Username or password", context);
       }
     } catch (e) {
-      print('error occurred $e');
+      print('Error occurred: $e');
     } finally {
-      isUserRegistering = false;
+      isUserLogining = false;
       notifyListeners();
     }
   }
@@ -206,6 +297,20 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  bool isAdminScheduleHistory = false;
+  Future<List<AdminTourScheduleList>> getAdminTourSchedulesHistory() async {
+    isUserScheduleHistory = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "scheduleHistoryss"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => AdminTourScheduleList.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
   bool isSocialMedia = false;
   Future<List<SocialMedia>> getSocialMedia() async {
     isSocialMedia = true;
@@ -262,16 +367,6 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  //  Future<List<GridItem>> fetchGridItems() async {
-  //   final response = await http.get(Uri.parse(baseUrl + "placedetails"));
-  //   if (response.statusCode == 200) {
-  //     List<dynamic> body = json.decode(response.body);
-  //     List<GridItem> gridItems = body.map((item) => GridItem.fromJson(item)).toList();
-  //     return gridItems;
-  //   } else {
-  //     throw Exception('Failed to load grid items');
-  //   }
-  // }
   Future<TouristLocation> fetchTouristLocationDetails(int placeId) async {
     final response = await http.get(Uri.parse(baseUrl + "place/$placeId"));
 
@@ -288,6 +383,65 @@ class UserProvider extends ChangeNotifier {
       return TourSchedule.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load tour schedule details');
+    }
+  }
+
+  Future<List<TouristLocation>> fetchPopularDestinations() async {
+    isTouristLocation = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(baseUrl + "placedetails"));
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TouristLocation.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tour schedules');
+    }
+  }
+
+  bool isFetchingCoordinatesTable = false;
+  List<CoordinatesData> coordinatesTable = [];
+
+  Future<void> fetchCoordinatesTable() async {
+    isFetchingCoordinatesTable = true;
+    notifyListeners();
+
+    try {
+      final response = await http.get(Uri.parse(baseUrl + "coordinates1"));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+        coordinatesTable =
+            jsonList.map((e) => CoordinatesData.fromJson(e)).toList();
+      } else {
+        throw Exception('Failed to load coordinates');
+      }
+    } catch (e) {
+      print("Error fetching coordinates table: $e");
+    } finally {
+      isFetchingCoordinatesTable = false;
+      notifyListeners();
+    }
+  }
+
+  Future<List<PlacesData>> fetchPlacesTable() async {
+    final response = await http.get(Uri.parse(baseUrl + "placesTable"));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => PlacesData.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load places data');
+    }
+  }
+
+  Future<List<TourismData>> fetchTourismData() async {
+    final response = await http.get(Uri.parse(baseUrl + "tourismData1"));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.map((e) => TourismData.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load tourism data');
     }
   }
 
@@ -317,15 +471,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> deleteTourSchedule(int scheduleId) async {
-    // Your logic to delete the tour schedule from the backend or database
-    // For example, making an HTTP request to delete the schedule
     final response = await http.delete(
       Uri.parse(baseUrl + "editSchedules/$scheduleId"),
     );
 
     if (response.statusCode == 200) {
-      // Successfully deleted
-      notifyListeners(); // Notify listeners to update UI
+      notifyListeners();
     } else {
       throw Exception('Failed to delete the schedule');
     }
@@ -344,10 +495,4 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to load Users list');
     }
   }
-
-  void deleteUser(int userId) {}
-
-  void addUser(newUser) {}
-
-  void updateUser(int userId, UserList userList) {}
 }

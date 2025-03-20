@@ -32,7 +32,7 @@ class NaviBar extends StatelessWidget {
                     ),
                   ),
                   decoration: const BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 136, 11, 109),
                   ),
                 );
               } else {
@@ -46,7 +46,7 @@ class NaviBar extends StatelessWidget {
                     ),
                   ),
                   decoration: const BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 156, 18, 145),
                   ),
                 );
               }

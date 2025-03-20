@@ -52,76 +52,109 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 200,
-                          height: 100,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
-                          Text(
-                            'Sign',
-                            style: GoogleFonts.poppins(
-                              color: isDarkMode ? Colors.white : Colors.black,
-                              fontSize: size.height * 0.06,
-                              fontWeight: FontWeight.bold,
+                          const SizedBox(height: 10),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Trip',
+                                  style: GoogleFonts.poppins(
+                                    color: Pallete.green, // Green for "Trip"
+                                    fontSize: size.height * 0.06,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'Mate',
+                                  style: GoogleFonts.poppins(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black, // Black for "Mate"
+                                    fontSize: size.height * 0.06,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Text(
-                            ' in',
-                            style: GoogleFonts.poppins(
-                              color: Pallete.green,
-                              fontSize: size.height * 0.06,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: size.height * 0.015),
-                        child: Align(
-                          child: Text(
-                            ' ',
+                            'Tourist Mobility Support System for Kerala',
                             style: GoogleFonts.poppins(
                               color: isDarkMode
-                                  ? Colors.white
-                                  : const Color(0xff1D1617),
-                              fontSize: size.height * 0.025,
-                              fontWeight: FontWeight.bold,
+                                  ? Colors.grey[400]
+                                  : Colors.grey[700],
+                              fontSize: size.height * 0.020,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ),
-                      ),
-                      Form(
-                        child: buildTextField(
-                            "Email", Icons.email_outlined, false, size,
-                            (valuemail) {
-                          if (valuemail.length < 5) {
-                            buildSnackError(
-                              'Invalid email',
-                              context,
+                          Text(
+                            'Under Rusa 2.0 MRP Project No.21',
+                            style: GoogleFonts.poppins(
+                              color: isDarkMode
+                                  ? Color.fromARGB(255, 218, 255, 11)
+                                  : Color.fromARGB(255, 36, 63, 1),
+                              fontSize: size.height * 0.020,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const SizedBox(height: 70), // Adjust spacing
+                          Image.asset(
+                            'assets/images/logo.png',
+                            width: 250, // Adjust size
+                            height: 150,
+                          ),
+                          const SizedBox(height: 20), // Adjust spacing
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Sign',
+                                style: GoogleFonts.poppins(
+                                  color:
+                                      isDarkMode ? Colors.white : Colors.black,
+                                  fontSize: size.height * 0.03,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                ' in',
+                                style: GoogleFonts.poppins(
+                                  color: Pallete.green,
+                                  fontSize: size.height * 0.03,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 1), // Adjust spacing
+                          Form(
+                            child: buildTextField(
+                              "Email",
+                              Icons.email_outlined,
+                              false,
                               size,
-                            );
-                            return '';
-                          }
-                          if (!RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
-                              .hasMatch(valuemail)) {
-                            buildSnackError(
-                              'Invalid email',
-                              context,
-                              size,
-                            );
-                            return '';
-                          }
-                          return null;
-                        }, _emailKey, 2, isDarkMode, _emailController),
+                              (valuemail) {
+                                if (valuemail.length < 5 ||
+                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+")
+                                        .hasMatch(valuemail)) {
+                                  buildSnackError(
+                                      'Invalid email', context, size);
+                                  return '';
+                                }
+                                return null;
+                              },
+                              _emailKey,
+                              2,
+                              isDarkMode,
+                              _emailController,
+                            ),
+                          ),
+                          // Password field and login button remain unchanged below
+                        ],
                       ),
                       Form(
                         child: buildTextField(

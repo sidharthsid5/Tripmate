@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keralatour/User_pages/HomePages/Schedule/interest_page.dart';
+import 'package:keralatour/User_pages/HomePages/Home_Dashboard/Add_Schedule/interest_page.dart';
 import 'package:keralatour/Widgets/pallete.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {

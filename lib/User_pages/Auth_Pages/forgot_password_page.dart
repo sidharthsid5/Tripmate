@@ -155,7 +155,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'TOURISM',
+                              '',
                               style: GoogleFonts.poppins(
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: size.height * 0.045,
@@ -163,7 +163,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ),
                             ),
                             Text(
-                              '^',
+                              '',
                               style: GoogleFonts.poppins(
                                 color: const Color.fromARGB(255, 48, 0, 239),
                                 fontSize: size.height * 0.06,

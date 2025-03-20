@@ -12,24 +12,58 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Pallete.whiteColor,
-      title: Text(title),
-      titleTextStyle: const TextStyle(
-        color: Pallete.green,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        fontStyle: FontStyle.italic,
-      ),
-      actions: actions ??
-          [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                _showLogoutDialog(context);
-              },
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100), // Increased height
+      child: AppBar(
+        backgroundColor: Color.fromARGB(255, 151, 57, 57),
+        elevation: 0,
+        flexibleSpace: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RichText(
+              text: const TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Trip',
+                    style: TextStyle(
+                      color: Pallete.green,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Mate',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 7), // Space between TripMate and title
+            Text(
+              title, // Dynamic title from page
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
+        ),
+        centerTitle: true,
+        actions: actions ??
+            [
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () {
+                  _showLogoutDialog(context);
+                },
+              ),
+            ],
+      ),
     );
   }
 
@@ -64,5 +98,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(90);
 }

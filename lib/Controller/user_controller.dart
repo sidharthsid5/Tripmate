@@ -5,6 +5,7 @@ import 'package:keralatour/Admin_pages/Admin_dashboard/schedule_history.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/coordinates_table.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/places_tablepage.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/tourism_datapage.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/user_clustering.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Demo_statistics/Filtered_Reports/Overall_trends/home_chart.dart';
 import 'package:keralatour/Admin_pages/Admin_dashboard/admin_dash.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/SocialMedia/class_social.dart';
@@ -442,6 +443,37 @@ class UserProvider extends ChangeNotifier {
       return jsonList.map((e) => TourismData.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load tourism data');
+    }
+  }
+
+  bool isFetchingCoordinatesTable2 = false;
+
+  List<CoordinatesData5> coordinatesTable2 = [];
+
+  Future<void> fetchCoordinatesTable2() async {
+    isFetchingCoordinatesTable2 = true;
+
+    notifyListeners();
+
+    print("Fetching from: ${baseUrl}coordinates2");
+
+    try {
+      final response = await http.get(Uri.parse(baseUrl + "coordinates2"));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+
+        coordinatesTable2 =
+            jsonList.map((e) => CoordinatesData5.fromJson(e)).toList();
+      } else {
+        throw Exception('Failed to load coordinates');
+      }
+    } catch (e) {
+      print("Error fetching coordinates table: $e");
+    } finally {
+      isFetchingCoordinatesTable2 = false;
+
+      notifyListeners();
     }
   }
 

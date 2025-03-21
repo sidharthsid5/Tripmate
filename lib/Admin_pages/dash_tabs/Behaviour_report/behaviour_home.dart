@@ -4,6 +4,8 @@ import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/im
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/places_tablepage.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/tourism_datapage.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/user_behaviour.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/user_clustering.dart';
+import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/user_similarity.dart';
 import 'package:keralatour/Admin_pages/dash_tabs/Behaviour_report/Behave_tabs/usermessage_table.dart';
 import 'package:keralatour/Widgets/custon_appbar.dart';
 
@@ -41,6 +43,16 @@ class AnalyticsDashboard extends StatelessWidget {
         title: '',
         content: '',
       )
+    },
+    {
+      'title': 'Travel Clustering',
+      'icon': Icons.groups_2,
+      'page': KMeansPage()
+    },
+    {
+      'title': 'Similarity Clustering',
+      'icon': Icons.transfer_within_a_station_outlined,
+      'page': MovementSimilarityPage()
     },
   ];
 
